@@ -1,19 +1,22 @@
 "use client"
 import Link from "next/link";
 import Image from 'next/image'
-import { CgProfile } from "react-icons/cg";
-import { HiOutlineUserCircle } from "react-icons/hi";
-import { Icon } from "@chakra-ui/react";
 import { UserSignOut } from "../redux/userSlice";
-import { Flex, Menu, MenuItem, MenuList, MenuButton } from "@chakra-ui/react";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
-import { CiLogout, CiLogin } from "react-icons/ci";
 import { FiEdit } from "react-icons/fi";
+import { usePathname } from "next/navigation";
+import defaultImg from "@/public/assest/125.gif"
 
 
 
 const Navbar = () => {
+    const navLinks = [
+        { name: "Home", href: "/" },
+        { name: "Menu", href: "/menu" },
+        { name: "About", href: "/about" },
+        { name: "Contact", href: "/contact" },
+    ]
     const dispatch = useDispatch();
     const { currentUser } = useSelector((state) => state.user);
     const [authorized, setAuthorized] = useState(false);
@@ -38,6 +41,8 @@ const Navbar = () => {
         dispatch(UserSignOut(currentUser))
         window.location.href = "/login"
     }
+    const pathname = usePathname();
+
     return (
         <div className="navbar bg-base-200 drop-shadow-md w-full fixed top-0 left-0 right-0 z-50">
             <div className="flex items-center justify-between w-full -ml-4 -mr-2 mx-4 md:mx-4">
@@ -51,21 +56,24 @@ const Navbar = () => {
                 {/* second div of links starting */}
 
                 <div className="flex items-center text-sm md:text-xl justify-between gap-4">
-                    <Link href={"/"}>Home</Link>
-                    <Link href={"/menu"}>Menu</Link>
-                    <Link href={"/about"}>About</Link>
-                    <Link href={"/contact"}>Contact</Link>
+                    {
+                        navLinks.map((link) => {
+                            return (
+                                <Link href={link.href} key={link.name} className={pathname === link.href ? "text-red-500 underline font-semibold" : ""}>{link.name}</Link>
+                            )
+                        })
+                    }
                 </div>
                 {/* second div of links ending */}
 
                 {/* third div of profile starting */}
                 <div className="dropdown dropdown-end -mr-4 -md-mr-2">
                     <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
-                        <div className="w-10 rounded-full">
+                        <div className="w-10 rounded-full border-2 border-red-600">
                             {authorized ? (
                                 <Image src={currentUser?.image} width={24} height={24} className="w-6 h-6 md:w-7 md:h-7 rounded-full object-cover" alt="profile" />
                             ) : (
-                                <Image src={"https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_640.png"} width={24} height={24} className="w-6 h-6 md:w-7 md:h-7 rounded-full object-cover" alt="profile" />
+                                <Image src={defaultImg} width={24} height={24} className="w-6 h-6 md:w-7 md:h-7 rounded-full object-cover" alt="profile" />
                             )
                             }
                         </div>
@@ -74,7 +82,14 @@ const Navbar = () => {
 
                         {
                             admin ? (
-                                <li className="cursor-pointer"><a>Settings</a></li>
+                                <>
+                                    <li className="cursor-pointer">
+                                        <Link href={"/product"} className="justify-between">
+                                            Settings
+                                            <span className="badge">New</span>
+                                        </Link>
+                                    </li>
+                                </>
                             ) : (
                                 null
                             )
@@ -83,10 +98,10 @@ const Navbar = () => {
                             authorized ? (
                                 <>
                                     <li className="cursor-pointer">
-                                        <a className="justify-between">
+                                        <Link href={"/edit-profile"} className="justify-between">
                                             Profile
                                             <span className="badge">New</span>
-                                        </a>
+                                        </Link>
                                     </li>
                                     <li onClick={handleLogOut} className="cursor-pointer"><a href="/login">Logout</a></li>
                                 </>

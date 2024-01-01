@@ -17,8 +17,7 @@ const SignUp = () => {
   const [msg, setMsg] = useState("");
   const [sMsg, setSMsg] = useState(false);
   const [data, setData] = useState({
-    firstName: "",
-    lastName: "",
+    username: "",
     email: "",
     password: "",
     confirmpassword: "",
@@ -60,12 +59,9 @@ const SignUp = () => {
       const url = `/api/users/signup`;
 
       // Check for empty fields first
-      if (!data.firstName || !data.lastName || !data.email || !data.password || !data.confirmpassword) {
-        console.log("Empty fields detected");
-        if(!data.firstName){
-          toast.error("Please Enter your First Name");
-        }else if(!data.lastName){
-          toast.error("Please Enter your Last Name");
+      if (!data.username || !data.email || !data.password || !data.confirmpassword) {
+        if(!data.username){
+          toast.error("Please Enter userName");
         }else if(!data.email){
           toast.error("Please Enter your Email address");
         }else if(!data.password){
@@ -79,14 +75,13 @@ const SignUp = () => {
       // Check if password and confirm password match
       if (data.password !== data.confirmpassword) {
         setLoading(false)
-        toast.error("Password ≠ Confirm Password");
+        toast.error("password & confirm password should match");
         return;
       }
 
       // Store only the password in the data object
-      const { firstName, lastName, email, password, image } = data;
-      const requestData = { firstName, lastName, email, password, image };
-      console.log(requestData);
+      const { username, email, password, image } = data;
+      const requestData = { username, email, password, image };
       const response = await axios.post(url, requestData);
 
       // Check if the signup was successful
@@ -157,25 +152,14 @@ const SignUp = () => {
                 className="w-full py-3 flex flex-col"
                 onSubmit={handleSubmit}
               >
-                <label htmlFor="firstName">First Name</label>
+                <label htmlFor="username">Username</label>
                 <input
                   type={"text"}
-                  id="firstName"
-                  name="firstName"
+                  id="username"
+                  name="username"
                   autoComplete="off"
                   className="mt-1 mb-2 w-full bg-slate-200 px-2 py-1 rounded focus-within:outline-blue-300"
-                  value={data.firstName}
-                  onChange={handleChange}
-                />
-
-                <label htmlFor="lastName">Last Name</label>
-                <input
-                  type={"text"}
-                  id="lastName"
-                  name="lastName"
-                  autoComplete="off"
-                  className="mt-1 mb-2 w-full bg-slate-200 px-2 py-1 rounded focus-within:outline-blue-300"
-                  value={data.lastName}
+                  value={data.username}
                   onChange={handleChange}
                 />
 

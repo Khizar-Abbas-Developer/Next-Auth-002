@@ -30,8 +30,8 @@ export const POST = async (req, res) => {
       return NextResponse.json({ message: "Please verify your email account first!" }, { status: 400 });
     }
 
-    const { firstName, lastName, email: userEmail, _id, image, balance } = user;
-    const bUser = { firstName, lastName, email: userEmail, _id, image, balance };
+    const { username, email: userEmail, _id, image, balance } = user;
+    const bUser = { username, email: userEmail, _id, image, balance };
 
     return NextResponse.json({ bUser, message: "Logged in successfully" }, { status: 200 });
   } catch (error) {
