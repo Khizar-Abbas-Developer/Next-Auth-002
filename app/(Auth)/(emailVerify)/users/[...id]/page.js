@@ -42,24 +42,13 @@ const EmailVerify = ({ params }) => {
   }, [params]);
 
   return (
-    <motion.div
-      className="container"
-      initial={{ scale: 0 }}
-      animate={{ rotate: 0, scale: 1 }}
-      transition={{
-        type: "spring",
-        stiffness: 260,
-        damping: 20,
-      }}
-    >
+    <div className="flex justify-center items-center h-96">
       {loading ? (
-        // Render loading state if still loading
-        <div className="flex flex-col justify-center items-center h-96 mt-10">
+        <div className="flex items-center justify-center h-96">
           <Loader />
         </div>
       ) : error && !verified ? (
-        // Render error state if there's an error and not yet verified
-        <div className="flex flex-col justify-center items-center h-96 mt-10 ml-32">
+        <div className="flex flex-col justify-center items-center h-96 gap-6">
           <h1 className="text-2xl font-bold md:text-5xl">
             Your token has expired!
           </h1>
@@ -67,19 +56,19 @@ const EmailVerify = ({ params }) => {
           <p className="text-5xl md:text-6xl">⚠️</p>
         </div>
       ) : (
-        // Render success state if verification is successful
-        <div className="flex flex-col justify-center items-center h-96 mt-20 ml-20">
-          <h1 className="text-2xl font-bold md:text-4xl text-center">
+        <div className="flex flex-col justify-center items-center h-96">
+          <h1 className="text-2xl font-bold md:text-4xl lg:text-5xl text-center">
             Email Verified Successfully
           </h1>
-          <p className="text-7xl md:text-8xl mb-10">✅</p>
+          <p className="text-7xl md:text-8xl">✅</p>
           <Link href={"/login"} className="underline text-xl">
             Login to your account
           </Link>
         </div>
       )}
-    </motion.div>
+    </div>
   );
+   
 };
 
 export default EmailVerify;

@@ -54,4 +54,16 @@ const validate = (data) => {
   return schema.validate(data);
 };
 
-export { User, validate };
+
+const validate2 = (data) => {
+  const schema = Joi.object({
+    username: Joi.string().required().label('Username'),
+    email: Joi.string().email().required().label('Email'),
+    password: Joi.required().label("Password"),
+    image: Joi.string().allow('').optional().label('Image'),
+  });
+  
+  return schema.validate(data);
+};
+
+export { User, validate, validate2 };

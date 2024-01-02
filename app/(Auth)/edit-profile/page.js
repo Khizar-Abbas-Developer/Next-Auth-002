@@ -67,7 +67,6 @@ const handleSubmit = async (e) => {
       image: myUserImage,
       name: myUserName,
     });
-    console.log(res.data);
     dispatch(UpdateUserSucess(res.data));
     toast.success("Profile updated successfully 🥳");
     // window.location.reload();

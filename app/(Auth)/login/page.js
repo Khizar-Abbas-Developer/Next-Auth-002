@@ -12,6 +12,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { signInFailure, signInStart, signInSuccess } from "@/components/redux/userSlice";
 import { useRouter } from "next/navigation";
+import SigninButton from "@/components/SigninButton/SigninButton";
 
 const LoginPage = () => {
   const router = useRouter();
@@ -115,6 +116,7 @@ const LoginPage = () => {
               Signup
             </Link>
           </p>
+          <SigninButton />
         </div>
       </div>
     </>

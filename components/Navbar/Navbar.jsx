@@ -6,7 +6,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { FiEdit } from "react-icons/fi";
 import { usePathname } from "next/navigation";
-import defaultImg from "@/public/assest/125.gif"
+import defaultImg from "@/public/assest/125.gif";
+import { Icon } from "@chakra-ui/react";
+import { HiOutlineUserCircle } from "react-icons/hi";
+
 
 
 
@@ -69,14 +72,17 @@ const Navbar = () => {
                 {/* third div of profile starting */}
                 <div className="dropdown dropdown-end -mr-4 -md-mr-2">
                     <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
-                        <div className="w-10 rounded-full border-2 border-red-600">
                             {authorized ? (
-                                <Image src={currentUser?.image} width={24} height={24} className="w-6 h-6 md:w-7 md:h-7 rounded-full object-cover" alt="profile" />
+                        <div className="w-10 rounded-full border-2 border-red-600">
+                                <Image src={currentUser?.image} width={24} height={24} className="w-6 h-6 md:w-7 md:h-7 rounded-full object-cover" alt="" />
+                                </div>
+
                             ) : (
-                                <Image src={defaultImg} width={24} height={24} className="w-6 h-6 md:w-7 md:h-7 rounded-full object-cover" alt="profile" />
+                                <div className="flex justify-center items-center">
+                                <Icon as={HiOutlineUserCircle} className="text-[40px]" />
+                                </div>
                             )
                             }
-                        </div>
                     </div>
                     <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
 
