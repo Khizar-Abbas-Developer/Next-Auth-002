@@ -23,7 +23,7 @@ export const POST = async (req, res) => {
       if (!token) {
         const tokenValue = crypto.randomBytes(32).toString("hex");
         token = await new Token({ userId: user._id, token: tokenValue }).save();
-        const url = `${process.env.NEXT_PUBLIC_BASE_URL}users/${user._id}/verify/${tokenValue}`;
+        const url = `${process.env.NEXT_PUBLIC_BASE_URL}/users/${user._id}/verify/${tokenValue}`;
         await sendEmail(user.email, "Verify Email", url);
       }
 
