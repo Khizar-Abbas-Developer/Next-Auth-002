@@ -43,7 +43,7 @@ const ForgotPassword = () => {
         <>
           <div className={styles.container}>
             <form className={styles.form_container} onSubmit={handleSubmit}>
-              <h1 className="text-2xl mb-4 font-extrabold tracking-wide">Forgot your password?</h1>
+              <h1 className="text-2xl mb-4 font-extrabold tracking-wide">Reset your password</h1>
               <h3>You'll get an email with a reset link</h3>
               <input
                 type="email"
