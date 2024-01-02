@@ -27,7 +27,7 @@ export const POST = async (req, res) => {
         await sendEmail(user.email, "Verify Email", url);
       }
 
-      return NextResponse.json({ message: "Please verify your email account first!" }, { status: 400 });
+      return NextResponse.json({ message: "Verification link sent to your account" }, { status: 400 });
     }
 
     const { username, email: userEmail, _id, image, balance } = user;
