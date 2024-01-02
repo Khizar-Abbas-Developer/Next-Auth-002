@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import Loader from "../(Loader2)/thirdLoader/loading";
 import { ImagetoBase64 } from "@/utils/ImagetoBase64";
+import SigninButton from "@/components/SigninButton/SigninButton";
 
 const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -219,6 +220,9 @@ const SignUp = () => {
                   Login
                 </Link>
               </p>
+              <div className="mt-4 drop-shadow-md">
+              <SigninButton />
+              </div>
             </div>
           </div>
         </>

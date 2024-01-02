@@ -30,10 +30,10 @@ const LoginPage = () => {
       setLoading(true);
       dispatch(signInStart());
       const url = `/api/users/login`;
-      if(!data.email || !data.password){
-        if(!data.email){
+      if (!data.email || !data.password) {
+        if (!data.email) {
           toast.error("please enter your email")
-        }else if(!data.password){
+        } else if (!data.password) {
           toast.error("please enter your password")
         }
       }
@@ -116,7 +116,9 @@ const LoginPage = () => {
               Signup
             </Link>
           </p>
-          <SigninButton />
+          <div className="mt-4 drop-shadow-md">
+            <SigninButton />
+          </div>
         </div>
       </div>
     </>
