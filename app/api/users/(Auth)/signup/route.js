@@ -49,7 +49,7 @@ export const POST = async (request) => {
         // Send verification email
         await sendVerificationEmail(user);
 
-        return NextResponse.json({ message: "An Email sent to your account, please verify" }, { status: 201 });
+        return NextResponse.json({ message: `Verification link sent to ${user.email}` }, { status: 201 });
     } catch (error) {
         console.error(error);
         return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
