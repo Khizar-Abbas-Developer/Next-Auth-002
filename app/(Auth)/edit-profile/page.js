@@ -33,7 +33,7 @@ export default function UserProfileEdit() {
   const [dataToUpdate, setDataToUpdate] = useState({});
   const circleStyle = {
     width: "100px",
-    height: "100px",
+    height: "100px", 
     borderRadius: "50%",
     border: "4px solid transparent",
     boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.1)",
