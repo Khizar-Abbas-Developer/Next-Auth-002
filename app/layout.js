@@ -1,10 +1,10 @@
-import { Inter } from 'next/font/google';
-import './globals.css';
-import Navbar from '../components/Navbar/Navbar';
+import { Inter } from 'next/font/google'
+import './globals.css'
+import { Toaster } from 'react-hot-toast'
+import Link from 'next/link'
 import NextTopLoader from 'nextjs-toploader';
-import { Toaster } from 'react-hot-toast';
-import React from 'react';
-import { Providers, ReduxProvider } from "../components/redux/provider"
+import { Providers, ReduxProvider } from '@/redux/provider';
+import Navbar from '@/components/Navbar/Navbar';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -17,18 +17,16 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <React.StrictMode>
         <NextTopLoader showSpinner={false} />
         <Toaster />
         <ReduxProvider>
-        <Providers>
           <Navbar />
-          <main className='mt-16'>
-            {children}
-          </main>
-        </Providers>
+          <Providers>
+            <main className="mt-16">
+              {children}
+            </main>
+          </Providers>
         </ReduxProvider>
-        </React.StrictMode>
       </body>
     </html>
   )

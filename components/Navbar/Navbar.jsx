@@ -1,17 +1,15 @@
 "use client"
 import Link from "next/link";
 import Image from 'next/image'
-import { UserSignOut } from "../redux/userSlice";
+import { UserSignOut } from "@/redux/userSlice";
+import logo from "@/public/logo.png";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { FiEdit } from "react-icons/fi";
 import { usePathname } from "next/navigation";
-import defaultImg from "@/public/assest/125.gif";
+import defaultImg from "@/public/125.gif";
 import { Icon } from "@chakra-ui/react";
 import { HiOutlineUserCircle } from "react-icons/hi";
-
-
-
 
 const Navbar = () => {
     const navLinks = [
@@ -39,7 +37,7 @@ const Navbar = () => {
                 setAdmin(false)
             )
         }
-    }, [])
+    }, [currentUser?.imag, currentUser?.email])
     const handleLogOut = () => {
         dispatch(UserSignOut(currentUser))
         window.location.href = "/login"
@@ -52,7 +50,7 @@ const Navbar = () => {
                 {/* first div of logo starting */}
                 <div className="">
                     <Link href={"/"} className="btn btn-ghost text-lg md:text-xl">
-                        <Image src={"/vercel.png"} width={40} height={40} alt="logo" />
+                        <Image src={logo} width={40} height={40} alt="logo" priority className="w-auto h-[40px]" />
                     </Link>
                 </div>
                 {/* first div of logo starting */}

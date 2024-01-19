@@ -1,70 +1,78 @@
-"use client"
+/* eslint-disable react/no-unescaped-entities */
 
-import { useState } from "react";
-import axios from "axios";
+"use client"
+import React, { useEffect, useRef, useState } from 'react';
 import styles from "./styles.module.css";
-import Loader from "../(Loader2)/thirdLoader/loading";
-import toast from "react-hot-toast";
+import SubmitButton from "@/components/SubmitButton/SubmitButton";
+import { useFormState } from "react-dom";
+import { ForgotAPI } from './_action';
+import Loader from '@/components/Loader/Loader';
+import toast from 'react-hot-toast';
 
 const ForgotPassword = () => {
-  const [email, setEmail] = useState("");
-  const [msg, setMsg] = useState("");
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      setLoading(true);
-      const url = `/api/users/password-reset`;
-      const { data } = await axios.post(url, { email });
-      toast.success(data.message)
-      setMsg(data.message);
-      setError("");
-      setLoading(false);
-    } catch (error) {
-      if (
-        error.response &&
-        error.response.status >= 400 &&
-        error.response.status <= 500
-      ) {
-        setLoading(false);
-        toast.error(error.response.data.message)
-        setMsg("");
-      }
-    }
-    setEmail("");
-  };
+    const formRef = useRef(null);
+    const [loading, setLoading] = useState(false);
+    const [response, formAction] = useFormState(ForgotAPI, 0);
+    const [msg, setMsg] = useState("");
 
-  return (
-    <>
-      {loading ? (
-        <Loader />
-      ) : (
+    //handle Forgot response
+    useEffect(() => {
+        const handleResponse = () => {
+            const bad_Request = 400;
+            const success = 200;
+            const server_Error = 500;
+            const conflict = 409;
+            if (response.status === success) {
+                formRef.current?.reset();
+                toast.success(response.message);
+                setMsg(response.message);
+                // resetting the input fields of the form
+                formRef.current?.reset();
+            } else if (response.status === bad_Request) {
+                toast.error(response.message);
+            } else if (response.status === server_Error) {
+                toast.error(response.message);
+            } else if (response.status === conflict) {
+                toast.error(response.message)
+            }
+        };
+
+        if (response) {
+            handleResponse();
+        }
+    }, [response]);
+    return (
         <>
-          <div className={styles.container}>
-            <form className={styles.form_container} onSubmit={handleSubmit}>
-              <h1 className="text-2xl mb-4 font-extrabold tracking-wide">Reset your password</h1>
-              <h3>You'll get an email with a reset link</h3>
-              <input
-                type="email"
-                placeholder="Email"
-                name="email"
-                onChange={(e) => setEmail(e.target.value)}
-                value={email}
-                required
-                autoComplete="off"
-                className={styles.input}
-              />
-              {msg && <div className={styles.success_msg}>{msg}</div>}
-              <button className="w-full max-w-[120px] m-auto bg-red-500 hover:bg-red-600 cursor-pointer text-white text-xl font-medium text-center py-1 rounded-full mt-4">
-            Submit
-          </button>
-            </form>
-          </div>
+            {loading ? (
+                <Loader />
+            ) : (
+                <>
+                    <div className={styles.container}>
+                        <form className={styles.form_container}
+                            // onSubmit={handleSubmit}
+                            action={async (formData) => {
+                                formAction(formData);
+                            }}
+                            ref={formRef}
+                        >
+                            <h1 className="text-3xl mb-4 font-extrabold tracking-wide">Reset your password</h1>
+                            <h3 className='text-lg font-semibold'>You'll get an email with a reset link</h3>
+                            <input
+                                type="email"
+                                placeholder="Email"
+                                name="email"
+                                required
+                                autoComplete="off"
+                                className={styles.input}
+                            />
+                            {msg && <div className={styles.success_msg}>{msg}</div>}
+                            <SubmitButton name={"Reset"} />
+                        </form>
+                    </div>
+                </>
+            )}
         </>
-      )}
-    </>
-  );
-};
+    )
+}
 
-export default ForgotPassword;
+export default ForgotPassword
