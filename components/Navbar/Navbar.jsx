@@ -37,7 +37,7 @@ const Navbar = () => {
                 setAdmin(false)
             )
         }
-    }, [currentUser?.imag, currentUser?.email])
+    }, [currentUser?.image, currentUser?.email])
     const handleLogOut = () => {
         dispatch(UserSignOut(currentUser))
         window.location.href = "/login"
