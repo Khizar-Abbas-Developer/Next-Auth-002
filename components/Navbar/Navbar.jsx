@@ -46,9 +46,9 @@ const Navbar = () => {
 
     return (
         <div className="navbar bg-base-200 drop-shadow-md w-full fixed top-0 left-0 right-0 z-50">
-            <div className="flex items-center justify-between w-full -ml-4 -mr-2 mx-4 md:mx-4">
+            <div className="flex items-center justify-between w-full -ml-[18px] -mr-2 md:ml-4 mx-4 md:mx-4 pr-1 md:pr-2">
                 {/* first div of logo starting */}
-                <div className="">
+                <div className="-mr-6">
                     <Link href={"/"} className="btn btn-ghost text-lg md:text-xl">
                         <Image src={logo} width={40} height={40} alt="logo" priority className="w-auto h-[40px]" />
                     </Link>
@@ -56,7 +56,7 @@ const Navbar = () => {
                 {/* first div of logo starting */}
                 {/* second div of links starting */}
 
-                <div className="flex items-center text-sm md:text-xl justify-between gap-4">
+                <div className="flex items-center text-sm md:text-xl justify-between gap-2 md:gap-12">
                     {
                         navLinks.map((link) => {
                             return (
@@ -68,7 +68,7 @@ const Navbar = () => {
                 {/* second div of links ending */}
 
                 {/* third div of profile starting */}
-                <div className="dropdown dropdown-end -mr-4 -md-mr-2">
+                <div className="dropdown dropdown-end -mr-6 -md-mr-2">
                     <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
                             {authorized ? (
                         <div className="w-10 rounded-full border-2 border-red-600">
@@ -83,7 +83,6 @@ const Navbar = () => {
                             }
                     </div>
                     <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-
                         {
                             admin ? (
                                 <>
