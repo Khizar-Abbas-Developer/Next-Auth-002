@@ -38,9 +38,10 @@ const Navbar = () => {
             )
         }
     }, [currentUser?.image, currentUser?.email])
-    const handleLogOut = () => {
+    const handleLogOut = () => { 
         dispatch(UserSignOut(currentUser))
         window.location.href = "/login"
+        
     }
     const pathname = usePathname();
 
