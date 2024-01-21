@@ -13,7 +13,6 @@ export const createUser = async (prevState, data) => {
     const email = data.get('email');
     const password = data.get('password');
     const confirmpassword = data.get("confirmpassword");
-
     const image = await handleImageConversion(imageFile);
     await connectMongoDB();
     try {
