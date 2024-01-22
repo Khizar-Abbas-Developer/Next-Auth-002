@@ -12,6 +12,9 @@ export const verifyEmail = async (prevState, data) => {
         if (!user) {
             return {message: "Invalid link", status: 400}
         }
+        if (user.verified) {
+            return { message: "Email verified successfully", status: 200 };
+        }
         const token = await Token.findOne({
             userId: user._id,
             token: taken,
@@ -31,6 +34,6 @@ export const verifyEmail = async (prevState, data) => {
         return {message: "Email verified successfully", status: 200}
     } catch (error) {
         console.error(error);
-        return {message: "Internal Server Error", status: 200}
+        return {message: "Internal Server Error", status: 500}
     }
 };

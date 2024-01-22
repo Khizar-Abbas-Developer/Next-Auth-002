@@ -22,7 +22,6 @@ const EmailVerify = ({ params }) => {
         token: params.id[2]
     }), [params]);
     useEffect(() => {
-        return () => {
             const verifyEmailUrl = async () => {
                 try {
                     setError(false);
@@ -42,7 +41,6 @@ const EmailVerify = ({ params }) => {
                 }
             };
             verifyEmailUrl();
-        }
     }, [params, IdAndToken, formAction])
     // handle Response
     useEffect(() => {
