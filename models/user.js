@@ -1,4 +1,4 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Schema, model } from "mongoose";
 import jwt from "jsonwebtoken";
 const secretKey = process.env.KEY;
 import Joi from "joi";
@@ -42,7 +42,14 @@ userSchema.methods.generateAuthToken = function () {
     return token;
 };
 
-const User = mongoose.models.User || mongoose.model("User", userSchema);
+let User;
+
+try {
+    User = mongoose.model('User');
+} catch (error) {
+    // If the model doesn't exist, create it
+    User = model('User', userSchema);
+}
 
 const validate = (data) => {
     const schema = Joi.object({

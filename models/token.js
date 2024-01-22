@@ -18,5 +18,13 @@ const tokenSchema = new Schema({
     expires: 3600 },
 });
 
-const Token = mongoose.models.Token || model('Token', tokenSchema);
+let Token;
+
+try {
+    Token = mongoose.model('Token');
+} catch (error) {
+    // If the model doesn't exist, create it
+    Token = model('Token', tokenSchema);
+}
+
 export default Token;

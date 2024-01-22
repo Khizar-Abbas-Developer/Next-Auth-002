@@ -44,12 +44,13 @@ const EmailVerify = ({ params }) => {
             verifyEmailUrl();
         }
     }, [params, IdAndToken, formAction])
-    //handle Response
+    // handle Response
     useEffect(() => {
             const handleResponse = () => {
                 const bad_Request = 400;
                 const success = 200;
                 const server_Error = 500;
+                const conflict = 409;
                 if (response.status === success) {
                     toast.success(response.message);
                     setVerified(true)
@@ -60,6 +61,9 @@ const EmailVerify = ({ params }) => {
                 } else if (response.status === server_Error) {
                     setError(true)
                     toast.error(response.message);
+                } else if (response.status === conflict) {
+                    setError(true)
+                    toast.error(response.message)
                 }
             };
         if (response) {
