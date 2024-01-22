@@ -5,10 +5,12 @@ import { ScaleLoader } from "react-spinners";
 const SignUpButton = ({ name }) => {
     const { pending } = useFormStatus();
     return (
-        <button className="w-full max-w-[150px] m-auto bg-red-500 hover:bg-red-600 cursor-pointer text-white text-xl font-medium text-center py-1 pt-1 rounded-full">
+        <button className="w-full max-w-[150px] m-auto bg-red-500 hover:bg-red-600 cursor-pointer text-white text-xl font-medium text-center rounded-full">
             {pending ? (
                 <>
+                <div className="mt-1">
                     <ScaleLoader color="#FFFF00" height={20} width={4} />
+                </div>
                 </>
             ) : (
                 <>

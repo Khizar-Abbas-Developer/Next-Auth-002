@@ -17,14 +17,12 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <NextTopLoader showSpinner={false} />
+        <NextTopLoader color='red' showSpinner={false} />
         <Toaster />
         <ReduxProvider>
           <Navbar />
           <Providers>
-            <main className="mt-16">
               {children}
-            </main>
           </Providers>
         </ReduxProvider>
       </body>
