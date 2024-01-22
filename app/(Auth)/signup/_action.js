@@ -1,12 +1,23 @@
-// use-server/createUser.js
 "use server"
 import User, { validate } from "@/models/user";
 import connectMongoDB from "@/libs/mongodb";
 import Token from "@/models/token";
 import bcrypt from "bcrypt";
-import { sendVerificationEmail } from "@/utils/sendVerification";
+import crypto from "crypto";
 import { handleImageConversion } from "@/utils/ServerBase64";
+import sendEmail from "@/utils/sendEmail";
 
+//
+const sendVerificationEmail = async (user) => {
+    const token = await new Token({
+        userId: user._id,
+        token: crypto.randomBytes(32).toString("hex")
+    }).save();
+    const url = `${process.env.NEXT_PUBLIC_BASE_URL}/users/${user._id}/verify/${token.token}`;
+    await sendEmail(user.email, "Email Verification", url);
+    return true;
+};
+//
 export const createUser = async (prevState, data) => {
     const imageFile = await data.get("image");
     const username = data.get('username');
@@ -14,32 +25,31 @@ export const createUser = async (prevState, data) => {
     const password = data.get('password');
     const confirmpassword = data.get("confirmpassword");
     const image = await handleImageConversion(imageFile);
-    await connectMongoDB();
     try {
+        await connectMongoDB();
+
         const { error } = validate({ username, email, password, image });
         if (error) {
             const errorMessage = error.details.map((detail) => detail.message).join(', ');
-            return { message: errorMessage, status: 400 };
-        }
-        if (!confirmpassword) {
-            return { message: `please confirm your password`, status: 400 }
+            return { message: errorMessage, status: 400 }
         }
         if (password !== confirmpassword) {
-            return { message: `password and confirm password should match`, status: 400 }
+            return { message: "password and confirm password should match!", status: 400 }
         }
-        // Hash the password after validation
-        const salt = await bcrypt.genSalt(Number(process.env.SALT));
-        const hashedPassword = await bcrypt.hash(password, salt);
+        // Check if user with the given email already exists
+        const hashedPassword = await bcrypt.hash(password, 10);
 
-        let user = await User.findOne({ email });
-        if (user) {
-            return { message: `user with given email already exists!`, status: 409 }
+        let existingUser = await User.findOne({ email });
+        if (existingUser) {
+            return { message: "User with given email already exists!", status: 409 }
         }
+        let newUser = await User.create({ username, email, password: hashedPassword, image });
+        // Send verification email
+        await sendVerificationEmail(newUser);
 
-        user = await User.create({ username, email, password: hashedPassword, image });
-        await sendVerificationEmail(user);
-        return { message: `Verification link sent to ${user.email}`, status: 201 }
+        return { message: `Verification link send to ${newUser.email}`, status: 201 }
     } catch (error) {
-        return { message: `Internal Server Error`, status: 500 }
-    }
+    console.error(error);
+    return { message: "Internal Server Error", status: 500 };
+}
 };

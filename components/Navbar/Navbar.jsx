@@ -77,14 +77,13 @@ const Navbar = () => {
                         <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
 
                         <div className="drawer-side">
-                            <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
                             <label htmlFor="my-drawer-4" aria-label="close sidebar" className="drawer-overlay">
                             </label>
-                            <ul className="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
+                            <ul className="menu p-4 w-80 min-h-full text-base-content bg-black">
                                 <label htmlFor="my-drawer-4" aria-label="close sidebar" className="drawer-overlay">
                                     <ImCross className="text-2xl text-red-500" />
                                 </label>
-                                <div className="flex flex-col justify-center items-center gap-6 text-lg">
+                                <div className="flex flex-col justify-center items-center gap-6 text-lg text-white">
                                     {
                                         navLinks.map((link) => {
                                             return (
@@ -103,7 +102,7 @@ const Navbar = () => {
                     </Link>
                 </div>
                 {/* middle dev */}
-                <div className="hidden md:flex items-center text-lg justify-between gap-4">
+                <div className="hidden md:flex items-center text-lg justify-between gap-6">
                     {
                         navLinks.map((link) => {
                             return (
@@ -114,7 +113,7 @@ const Navbar = () => {
                 </div>
                 {/* middle dev */}
                 {/* third div starting from here */}
-                <div className="dropdown dropdown-end ml-6">
+                <div className="dropdown dropdown-end md:ml-10">
                     <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
                         {authorized ? (
                             <div className="w-10 rounded-full border-2 border-red-600">
