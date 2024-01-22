@@ -83,6 +83,7 @@ const Navbar = () => {
                                 <label htmlFor="my-drawer-4" aria-label="close sidebar" className="drawer-overlay">
                                     <ImCross className="text-2xl text-red-500" />
                                 </label>
+                                
                                 <div className="flex flex-col justify-center items-center gap-6 text-lg text-white">
                                     {
                                         navLinks.map((link) => {
