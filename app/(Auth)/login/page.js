@@ -98,7 +98,7 @@ const LoginPage = () => {
               </span>
             </div>
             <Link href={"/forgot-password"} className="underline text-red-500">Forget Password ?</Link>
-            <SignUpButton name={"Login"} />
+            <SignUpButton name={"Submit"} />
           </form>
           <p className="text-left w-full text-sm mt-2">
             Doesn't have an Account ?{" "}

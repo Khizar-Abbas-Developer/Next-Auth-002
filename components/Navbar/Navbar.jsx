@@ -121,7 +121,7 @@ const Navbar = () => {
                 {/* third div starting from here */}
                 <div className="dropdown dropdown-end md:ml-10" onClick={navigateLogin}>
                     <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
-                        {currentUser?.image ? (
+                        {authorized ? (
                             <div className="w-10 rounded-full border-2 border-red-600">
                                 <Image src={currentUser?.image} width={24} height={24} className="w-6 h-6 md:w-7 md:h-7 rounded-full object-cover" alt="" />
                             </div>

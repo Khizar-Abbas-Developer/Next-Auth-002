@@ -125,7 +125,7 @@ const SignupForm = () => {
                 {showConfirmPassword ? <BiShow /> : <BiHide />}
               </span>
             </div>
-            <SignUpButton name={"Sign up"} />
+            <SignUpButton name={"Submit"} />
           </form>
           <p className="text-left w-full text-sm mt-2">
             Already have Account ?{" "}
