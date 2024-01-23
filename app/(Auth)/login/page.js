@@ -65,15 +65,7 @@ const LoginPage = () => {
       <div className="p-3 bg-slate-100 min-h-[calc(100vh)] pt-40">
         <div className="w-full max-w-sm bg-white m-auto flex items-center flex-col p-4 shadow-xl rounded-md">
           <div variant={"success"} className="bg-green-300 w-full h-full text-center font-bold">{msg ? msg : ""}</div>
-          <div className="w-20 h-20 overflow-hidden rounded-full drop-shadow-md shadow-md m-auto relative">
-            <Image
-              src={loginSignUpImage}
-              className="w-full h-full"
-              alt="avatar-animation"
-              priority
-            />
-          </div>
-
+          <h3 className="text-center text-3xl md:text-4xl font-bold">Login</h3>
           <form
             className="w-full py-3 flex flex-col"
             action={async (formData) => {
@@ -105,7 +97,7 @@ const LoginPage = () => {
                 {showPassword ? <BiShow /> : <BiHide />}
               </span>
             </div>
-            <Link href={"/forgot-password"}>Forget Password?</Link>
+            <Link href={"/forgot-password"} className="underline text-red-500">Forget Password ?</Link>
             <SignUpButton name={"Login"} />
           </form>
           <p className="text-left w-full text-sm mt-2">

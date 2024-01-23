@@ -30,22 +30,6 @@ const SignupForm = () => {
     setShowConfirmPassword((prev) => !prev);
   };
 
-  const handleUploadProfileImage = async (e) => {
-    const file = e.target.files[0];
-    try {
-      const data = await ImagetoBase64(file);
-      const previewImage = URL.createObjectURL(file);
-
-      setData((prev) => ({
-        ...prev,
-        image: data,
-        previewImage,
-      }));
-    } catch (error) {
-      console.error("Error converting image to base64:", error);
-    }
-  };
-
   useEffect(() => {
     const handleResponse = () => {
       const bad_Request = 400;
@@ -91,28 +75,7 @@ const SignupForm = () => {
             }}
             ref={formRef}
           >
-            <div className="w-20 h-20 overflow-hidden rounded-full drop-shadow-md shadow-md m-auto relative">
-              <Image
-                src={data.previewImage ? data.previewImage : loginSignUpImage}
-                width={100}
-                height={100}
-                priority
-                alt="avatar-animation"
-              />
-              <label htmlFor="profileImage">
-                <div className="absolute bottom-0 h-1/3 bg-slate-500 bg-opacity-50 w-full text-center cursor-pointer">
-                  <p className="text-sm p-1 text-white">Upload</p>
-                </div>
-                <input
-                  type="file"
-                  id="profileImage"
-                  accept="image/*"
-                  className="hidden"
-                  name='image'
-                  onChange={handleUploadProfileImage}
-                />
-              </label>
-            </div>
+            <h3 className="text-center text-3xl md:text-4xl font-bold">Sign-up</h3>
             <label htmlFor="username">Username</label>
             <input
               className="mt-1 mb-2 w-full bg-slate-200 px-2 py-1 rounded focus-within:outline-blue-300"

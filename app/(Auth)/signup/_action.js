@@ -4,7 +4,6 @@ import connectMongoDB from "@/libs/mongodb";
 import Token from "@/models/token";
 import bcrypt from "bcrypt";
 import crypto from "crypto";
-import { handleImageConversion } from "@/utils/ServerBase64";
 import sendEmail from "@/utils/sendEmail";
 
 //
@@ -19,16 +18,14 @@ const sendVerificationEmail = async (user) => {
 };
 //
 export const createUser = async (prevState, data) => {
-    const imageFile = await data.get("image");
     const username = data.get('username');
     const email = data.get('email');
     const password = data.get('password');
     const confirmpassword = data.get("confirmpassword");
-    const image = await handleImageConversion(imageFile);
     try {
         await connectMongoDB();
 
-        const { error } = validate({ username, email, password, image });
+        const { error } = validate({ username, email, password });
         if (error) {
             const errorMessage = error.details.map((detail) => detail.message).join(', ');
             return { message: errorMessage, status: 400 }
@@ -43,7 +40,7 @@ export const createUser = async (prevState, data) => {
         if (existingUser) {
             return { message: "User with given email already exists!", status: 409 }
         }
-        let newUser = await User.create({ username, email, password: hashedPassword, image });
+        let newUser = await User.create({ username, email, password: hashedPassword });
         // Send verification email
         await sendVerificationEmail(newUser);
 
