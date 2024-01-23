@@ -1,4 +1,5 @@
 import { Inter } from 'next/font/google'
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import './globals.css'
 import { Toaster } from 'react-hot-toast'
 import Link from 'next/link'
@@ -22,6 +23,7 @@ export default function RootLayout({ children }) {
         <ReduxProvider>
           <Navbar />
           {children}
+          <SpeedInsights />
         </ReduxProvider>
       </body>
     </html>
