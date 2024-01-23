@@ -1,6 +1,7 @@
 "use client"
 import { ImagetoBase64 } from '@/utils/ImagetoBase64';
 import Image from 'next/image';
+import crossIcon from "@/public/cross.png"
 import loginSignUpImage from "@/public/empty-profile.png";
 import { useFormState } from "react-dom";
 import SignUpButton from "@/components/SubmitButton/SubmitButton";
@@ -12,6 +13,7 @@ import { updateUser } from './_action';
 import toast from 'react-hot-toast';
 import { UpdateUserFailure, UpdateUserSucess, updateUserStart } from '@/redux/userSlice';
 import { BeatLoader, FadeLoader } from 'react-spinners';
+import { ImCross } from 'react-icons/im';
 const Profile = () => {
   const [loadingImage, setLoadingImage] = useState(true);
   const tempImage = loginSignUpImage;
@@ -26,8 +28,11 @@ const Profile = () => {
     if (currentUser?.image) {
       setMyUserImage(currentUser.image);
       setLoadingImage(false); // Set loading to false after setting the image
+    } else {
+      setMyUserImage(tempImage);
+      setLoadingImage(false); // Set loading to false after setting the image
     }
-  }, [currentUser]);
+  }, [currentUser, tempImage]);
 
   const handleUploadProfileImage = (e) => {
     const file = e.target.files[0];
@@ -68,6 +73,9 @@ const Profile = () => {
       handleResponse();
     }
   }, [response, dispatch]);
+  const handleClearProfileImage = () => {
+    setMyUserImage(null);
+  };
   return (
     <>
       <div className="p-3 bg-slate-100 min-h-[calc(100vh)]">
@@ -79,38 +87,42 @@ const Profile = () => {
               formAction(formData);
             }}
           >
-<div className="flex justify-center items-center w-32 h-32 overflow-hidden rounded-full drop-shadow-md shadow-md m-auto relative z-50">
-  {loadingImage ? (
-    // You can add a placeholder or loading spinner here
-    <FadeLoader color="#EF4444" speedMultiplier={5} />
-  ) : (
-    <Image
-      loader={({ src }) => src}
-      src={myUserImage || tempImage}
-      width={200}
-      height={200}
-      unoptimized
-      priority
-      alt="avatar-animation"
-    />
-  )}
-  <label htmlFor="profileImage" className="absolute bottom-0 h-1/3 w-full text-center cursor-pointer z-10">
-    <div className="flex justify-center items-center h-full bg-slate-500 bg-opacity-50">
-      <p className="text-sm p-1 text-white">
-        <BiSolidEditAlt className="text-4xl text-black" />
-      </p>
-    </div>
-  </label>
-  {/* Input tag for selecting a new image */}
-  <input
-    type="file"
-    id="profileImage"
-    accept="image/*"
-    className="hidden"
-    name="image"
-    onChange={handleUploadProfileImage}
-  />
-</div>
+            <div className="relative">
+              {/* <div className="absolute top-48 right-28 z-50" onClick={handleClearProfileImage}>
+                <Image src={crossIcon} height={40} width={40} alt='' className='h-[40px] w-auto' />
+              </div> */}
+              <div className="flex justify-center items-center w-32 h-32 overflow-hidden drop-shadow-md rounded-full shadow-md m-auto relative z-10">
+                {loadingImage ? (
+                  <FadeLoader color="#EF4444" speedMultiplier={5} />
+                ) : (
+                  <Image
+                    loader={({ src }) => src}
+                    src={myUserImage || tempImage}
+                    width={200}
+                    height={200}
+                    unoptimized
+                    priority
+                    alt="avatar-animation"
+                  />
+                )}
+                <label htmlFor="profileImage" className="absolute bottom-0 h-1/3 w-full text-center cursor-pointer z-10">
+                  <div className="flex justify-center items-center h-full bg-slate-500 bg-opacity-50">
+                    <p className="text-sm p-1 text-white">
+                      <BiSolidEditAlt className="text-4xl text-black" />
+                    </p>
+                  </div>
+                </label>
+                {/* Input tag for selecting a new image */}
+                <input
+                  type="file"
+                  id="profileImage"
+                  accept="image/*"
+                  className="hidden"
+                  name="image"
+                  onChange={handleUploadProfileImage}
+                />
+              </div>
+            </div>
 
             <label htmlFor="username">Username</label>
             <input

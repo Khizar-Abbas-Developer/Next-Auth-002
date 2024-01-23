@@ -5,7 +5,7 @@ import { ScaleLoader } from "react-spinners";
 const SignUpButton = ({ name }) => {
     const { pending } = useFormStatus();
     return (
-        <button className="w-[25%] m-auto bg-red-500 hover:bg-red-600 cursor-pointer text-white text-xl font-medium text-center rounded-md mt-8">
+        <button className="w-[35%] m-auto bg-red-500 hover:bg-red-600 cursor-pointer text-white text-xl font-medium text-center rounded-md mt-8">
             {pending ? (
                 <>
                 <div className="mt-1">
