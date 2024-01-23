@@ -3,7 +3,7 @@ import './globals.css'
 import { Toaster } from 'react-hot-toast'
 import Link from 'next/link'
 import NextTopLoader from 'nextjs-toploader';
-import { Providers, ReduxProvider } from '@/redux/provider';
+import { ReduxProvider } from '@/redux/provider';
 import Navbar from '@/components/Navbar/Navbar';
 
 const inter = Inter({ subsets: ['latin'] })
@@ -21,9 +21,7 @@ export default function RootLayout({ children }) {
         <Toaster />
         <ReduxProvider>
           <Navbar />
-          <Providers>
-              {children}
-          </Providers>
+          {children}
         </ReduxProvider>
       </body>
     </html>

@@ -9,7 +9,6 @@ import { useCallback, useEffect, useState } from "react";
 import { FiEdit } from "react-icons/fi";
 import { usePathname, useRouter } from "next/navigation";
 import defaultImg from "@/public/125.gif";
-import { Icon } from "@chakra-ui/react";
 import { HiOutlineUserCircle } from "react-icons/hi";
 
 const Navbar = () => {
@@ -123,7 +122,7 @@ const Navbar = () => {
 
                         ) : (
                             <div className="flex justify-center items-center">
-                                <Icon as={HiOutlineUserCircle} className="text-[40px]" />
+                                <HiOutlineUserCircle className="text-[40px]" />
                             </div>
                         )
                         }
