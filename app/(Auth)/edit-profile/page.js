@@ -91,7 +91,7 @@ const Profile = () => {
 
             <div className="flex w-full justify-center items-center">
               {/* //image div */}
-              <div className="w-32 h-32 rounded-full flex justify-center items-center">
+              <div className="w-28 h-28 rounded-full flex justify-center items-center border-4 border-red-500 mr-4">
                 {loadingImage ? (
                   <FadeLoader color="#EF4444" speedMultiplier={5} />
                 ) : (
