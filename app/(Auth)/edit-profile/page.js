@@ -41,7 +41,7 @@ const Profile = () => {
       reader.onload = (e) => {
         const base64Image = e.target.result;
         setMyUserImage(base64Image);
-        setLoadingImage(false); // Set loading to false after setting the image
+        setLoadingImage(false);
       };
       reader.readAsDataURL(file);
     }
@@ -87,43 +87,38 @@ const Profile = () => {
               formAction(formData);
             }}
           >
-            <div className="relative">
-              {/* <div className="absolute top-48 right-28 z-50" onClick={handleClearProfileImage}>
-                <Image src={crossIcon} height={40} width={40} alt='' className='h-[40px] w-auto' />
-              </div> */}
-              <div className="flex justify-center items-center w-32 h-32 overflow-hidden drop-shadow-md rounded-full shadow-md m-auto relative z-10">
-                {loadingImage ? (
-                  <FadeLoader color="#EF4444" speedMultiplier={5} />
-                ) : (
-                  <Image
-                    loader={({ src }) => src}
-                    src={myUserImage || tempImage}
-                    width={200}
-                    height={200}
-                    unoptimized
-                    priority
-                    alt="avatar-animation"
-                  />
-                )}
-                <label htmlFor="profileImage" className="absolute bottom-0 h-1/3 w-full text-center cursor-pointer z-10">
-                  <div className="flex justify-center items-center h-full bg-slate-500 bg-opacity-50">
-                    <p className="text-sm p-1 text-white">
-                      <BiSolidEditAlt className="text-4xl text-black" />
-                    </p>
-                  </div>
-                </label>
-                {/* Input tag for selecting a new image */}
-                <input
-                  type="file"
-                  id="profileImage"
-                  accept="image/*"
-                  className="hidden"
-                  name="image"
-                  onChange={handleUploadProfileImage}
-                />
-              </div>
-            </div>
 
+            <div className="flex justify-center items-center w-32 h-32 overflow-hidden drop-shadow-md rounded-full shadow-md m-auto z-0">
+              {loadingImage ? (
+                <FadeLoader color="#EF4444" speedMultiplier={5} />
+              ) : (
+                <Image
+                  loader={({ src }) => src}
+                  // src={myUserImage || tempImage}
+                  width={100}
+                  height={100}
+                  priority
+                  unoptimized
+                  alt="avatar-animation"
+                />
+              )}
+              <label htmlFor="profileImage" className="absolute bottom-0 h-1/3 w-full text-center cursor-pointer">
+                <div className="flex justify-center items-center h-full bg-slate-500 bg-opacity-50">
+                  <p className="text-sm p-1 text-white">
+                    <BiSolidEditAlt className="text-4xl text-black" />
+                  </p>
+                </div>
+              </label>
+              {/* Input tag for selecting a new image */}
+              <input
+                type="file"
+                id="profileImage"
+                accept="image/*"
+                className="hidden z-0"
+                name="image"
+                onChange={handleUploadProfileImage}
+              />
+            </div>
             <label htmlFor="username">Username</label>
             <input
               className="mt-1 mb-2 w-full bg-slate-200 px-2 py-1 rounded focus-within:outline-blue-300"

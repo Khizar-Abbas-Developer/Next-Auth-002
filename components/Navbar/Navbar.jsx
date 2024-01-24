@@ -73,7 +73,8 @@ const Navbar = () => {
     return (
         <>
             <div className="navbar bg-base-500 drop-shadow-md bg-black md:px-5 text-white">
-                <div className="flex-none md:hidden z-[1000]">
+                <div className="">
+                <div className="flex-none md:hidden z-10 relative">
                     <label htmlFor="my-drawer-4" className="drawer-button ml-2 mr-4 flex justify-center items-center bg-red-500 px-2 py-1 rounded-sm">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-5 h-5 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
                     </label>
@@ -102,6 +103,7 @@ const Navbar = () => {
                         </div>
                     </div>
                 </div>
+                </div>
                 <div className="flex-1">
                     <Link href={"/"} className="font-bold text-lg">
                         Logo
@@ -129,8 +131,7 @@ const Navbar = () => {
                             <div className="flex justify-center items-center">
                                 <HiOutlineUserCircle className="text-[40px]" />
                             </div>
-                        )
-                        }
+                        )}
                     </div>
                     {authorized && (
                         <>
