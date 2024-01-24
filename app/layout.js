@@ -19,7 +19,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <meta name="google-adsense-account" content="ca-pub-4815404807688326"></meta>
       <head><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4815404807688326"
-        crossOrigin="anonymous"></script>
+     crossorigin="anonymous"></script>
       </head>
       <body className={inter.className}>
         <NextTopLoader color='red' showSpinner={false} />
