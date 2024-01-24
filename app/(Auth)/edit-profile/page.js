@@ -79,7 +79,7 @@ const Profile = () => {
   return (
     <>
       <div className="p-3 bg-slate-100 min-h-[calc(100vh)]">
-        <div className="w-full max-w-sm bg-white m-auto flex items-center flex-col p-4 mt-24 shadow-md rounded-md">
+        <div className="w-full max-w-sm bg-white m-auto flex items-center flex-col p-4 mt-24 rounded-md">
           <form
             className="w-full py-3 flex flex-col"
             action={async (formData) => {
@@ -88,15 +88,15 @@ const Profile = () => {
             }}
           >
 
-            <div className="flex justify-center items-center w-32 h-32 overflow-hidden drop-shadow-md rounded-full shadow-md m-auto z-0">
+            <div className="flex justify-center items-center w-32 h-32 overflow-visible drop-shadow-md rounded-full m-auto">
               {loadingImage ? (
                 <FadeLoader color="#EF4444" speedMultiplier={5} />
               ) : (
                 <Image
                   loader={({ src }) => src}
-                  // src={myUserImage || tempImage}
-                  width={100}
-                  height={100}
+                  src={myUserImage || tempImage}
+                  width={250}
+                  height={250}
                   priority
                   unoptimized
                   alt="avatar-animation"
@@ -142,12 +142,9 @@ const Profile = () => {
             <input type="text" hidden defaultValue={currentUser?._id} name='id' />
             <SignUpButton name={"Update"} />
           </form>
-          <p className="text-left w-full text-sm mt-2">
-            Already have Account ?{" "}
-            <Link href={"/login"} className="text-red-500 underline">
-              Login
-            </Link>
-          </p>
+          <div className="">
+            
+          </div>
         </div>
       </div>
     </>
