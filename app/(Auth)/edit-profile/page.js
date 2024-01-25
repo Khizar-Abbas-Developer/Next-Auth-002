@@ -2,7 +2,7 @@
 import { ImagetoBase64 } from '@/utils/ImagetoBase64';
 import Image from 'next/image';
 import crossIcon from "@/public/cross.png"
-import { MdDelete } from "react-icons/md";
+import { ImCross } from "react-icons/im";
 import loginSignUpImage from "@/public/empty-profile.png";
 import { useFormState } from "react-dom";
 import SignUpButton from "@/components/SubmitButton/SubmitButton";
@@ -14,7 +14,6 @@ import { updateUser } from './_action';
 import toast from 'react-hot-toast';
 import { UpdateUserFailure, UpdateUserSucess, updateUserStart } from '@/redux/userSlice';
 import { BeatLoader, FadeLoader } from 'react-spinners';
-import { ImCross } from 'react-icons/im';
 const Profile = () => {
   const [loadingImage, setLoadingImage] = useState(true);
   const tempImage = loginSignUpImage;
@@ -91,7 +90,7 @@ const Profile = () => {
 
             <div className="flex w-full justify-center items-center">
               {/* //image div */}
-              <div className="w-28 h-28 rounded-full flex justify-center items-center border-4 border-red-500 mr-4">
+              <div className="w-28 h-28 rounded-full flex justify-center items-center border-4 border-red-500 -mr-3">
                 {loadingImage ? (
                   <FadeLoader color="#EF4444" speedMultiplier={5} />
                 ) : (
@@ -110,21 +109,22 @@ const Profile = () => {
               {/* image div */}
               {/* buttons div */}
               <div className="flex flex-col justify-center items-center gap-4">
+
+                <div className="cursor-pointer" onClick={handleClearProfileImage}>
+                  <div className="flex justify-center items-center h-full bg-slate-500 bg-opacity-50 rounded-full">
+                    <p className="text-sm p-1 text-white">
+                      <ImCross className="text-xl text-red-500" />
+                    </p>
+                  </div>
+                </div>
                 <div className="">
                   <label htmlFor="profileImage" className=" bottom-0 h-1/3 w-full text-center cursor-pointer">
-                    <div className="flex justify-center items-center h-full bg-slate-500 bg-opacity-50">
+                    <div className="flex justify-center items-center h-full bg-slate-500 bg-opacity-50 rounded-full">
                       <p className="text-sm p-1 text-white">
                         <BiSolidEditAlt className="text-2xl text-blue-500" />
                       </p>
                     </div>
                   </label>
-                </div>
-                <div className="" onClick={handleClearProfileImage}>
-                  <div className="flex justify-center items-center h-full bg-slate-500 bg-opacity-50">
-                    <p className="text-sm p-1 text-white">
-                      <MdDelete className="text-2xl text-red-500" />
-                    </p>
-                  </div>
                 </div>
               </div>
               {/* buttons div */}
@@ -162,12 +162,6 @@ const Profile = () => {
             <input type="text" hidden defaultValue={currentUser?._id} name='id' />
             <SignUpButton name={"Update"} />
           </form>
-          <p className="text-left w-full text-sm mt-2">
-            Already have Account ?{" "}
-            <Link href={"/login"} className="text-red-500 underline">
-              Login
-            </Link>
-          </p>
         </div>
       </div>
     </>

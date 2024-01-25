@@ -106,7 +106,7 @@ const Navbar = () => {
                 </div>
                 <div className="flex-1">
                     <Link href={"/"} className="font-bold text-lg">
-                        Logo
+                        <Image src={logo} width={50} height={50} className="w-auto h-[50px]" />
                     </Link>
                 </div>
                 {/* middle dev */}
