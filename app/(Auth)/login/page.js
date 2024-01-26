@@ -101,7 +101,7 @@ const LoginPage = () => {
             <SignUpButton name={"Submit"} />
           </form>
           <p className="text-left w-full text-sm mt-2">
-            Doesn't have an Account ?{" "}
+            Doesn't have an Account?{" "}
             <Link href={"/signup"} className="text-red-500 underline">
               Signup
             </Link>

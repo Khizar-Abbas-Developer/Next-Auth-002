@@ -66,8 +66,7 @@ const Navbar = () => {
 
     const navigateLogin = () => {
         if (!authorized) {
-            console.log("Clicked")
-            router.push("/login");
+            router.replace("/login");
         }
     }
     return (
@@ -106,7 +105,7 @@ const Navbar = () => {
                 </div>
                 <div className="flex-1">
                     <Link href={"/"} className="font-bold text-lg">
-                        <Image src={logo} width={50} height={50} className="w-auto h-[50px]" />
+                        <Image src={logo} width={40} height={40} className="h-auto w-auto" alt="" priority />
                     </Link>
                 </div>
                 {/* middle dev */}

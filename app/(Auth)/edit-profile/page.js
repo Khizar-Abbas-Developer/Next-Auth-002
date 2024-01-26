@@ -1,27 +1,34 @@
 "use client"
-import { ImagetoBase64 } from '@/utils/ImagetoBase64';
-import Image from 'next/image';
-import crossIcon from "@/public/cross.png"
-import { ImCross } from "react-icons/im";
+import { SmallCloseIcon } from "@chakra-ui/icons";
+import React, { useEffect, useState } from "react";
 import loginSignUpImage from "@/public/empty-profile.png";
-import { useFormState } from "react-dom";
-import SignUpButton from "@/components/SubmitButton/SubmitButton";
-import { BiSolidEditAlt } from "react-icons/bi";
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import Link from 'next/link';
-import { updateUser } from './_action';
-import toast from 'react-hot-toast';
-import { UpdateUserFailure, UpdateUserSucess, updateUserStart } from '@/redux/userSlice';
-import { BeatLoader, FadeLoader } from 'react-spinners';
-const Profile = () => {
-  const [loadingImage, setLoadingImage] = useState(true);
-  const tempImage = loginSignUpImage;
+import { toast } from "react-hot-toast";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import Link from "next/link";
+import Image from "next/image";
+import { FadeLoader, ScaleLoader } from "react-spinners";
+import { UpdateUserFailure, UpdateUserSucess, updateUserStart } from "@/redux/userSlice";
+
+export default function UserProfileEdit() {
   const dispatch = useDispatch();
-  const { currentUser } = useSelector((state) => state.user);
+  const currentUser = useSelector((state) => state.user.currentUser);
+  const tempImage = loginSignUpImage;
+  const [loadingImage, setLoadingImage] = useState(true);
+  const currentUser2 = useSelector((state) => state.user);
+  const [loading, setLoading] = useState(false);
+  const [condition, setCondition] = useState(true);
   const [myUserName, setMyUserName] = useState(currentUser?.username || "");
-  const [myUserImage, setMyUserImage] = useState(currentUser?.image || null);
-  const [response, formAction] = useFormState(updateUser, 0);
+  const [myUserImage, setMyUserImage] = useState(currentUser?.image || "");
+  const [dataToUpdate, setDataToUpdate] = useState({});
+  const circleStyle = {
+    width: "100px",
+    height: "100px",
+    borderRadius: "50%",
+    border: "4px solid transparent",
+    boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.1)",
+    backgroundImage: "linear-gradient(49deg, #f09433, #e6683c, #dc2743, #cc2366)",
+  };
 
   useEffect(() => {
     // Set myUserImage initially when currentUser is available
@@ -34,6 +41,10 @@ const Profile = () => {
     }
   }, [currentUser, tempImage]);
 
+  const removeTheProfilePic = () => {
+    setMyUserImage("");
+  };
+
   const handleUploadProfileImage = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -41,131 +52,125 @@ const Profile = () => {
       reader.onload = (e) => {
         const base64Image = e.target.result;
         setMyUserImage(base64Image);
-        setLoadingImage(false);
       };
       reader.readAsDataURL(file);
     }
   };
-  //handle response
-  useEffect(() => {
-    dispatch(updateUserStart());
-    const handleResponse = () => {
-      const bad_Request = 400;
-      const success = 200;
-      const server_Error = 500;
-      const conflict = 409;
-      if (response.status === success) {
-        dispatch(UpdateUserSucess(response.user))
-        toast.success(response.message);
-      } else if (response.status === bad_Request) {
-        dispatch(UpdateUserFailure())
-        toast.error(response.message);
-      } else if (response.status === server_Error) {
-        dispatch(UpdateUserFailure())
-        toast.error(response.message);
-      } else if (response.status === conflict) {
-        dispatch(UpdateUserFailure())
-        toast.error(response.message)
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true)
+    setDataToUpdate((prevState) => ({ ...prevState, image: myUserImage, name: myUserName }));
+    try {
+      dispatch(updateUserStart());
+      const id = currentUser?._id;
+      const res = await axios.post(`/api/edit-profile/${id}`, {
+        image: myUserImage,
+        name: myUserName,
+      });
+      if(res.status === 200){
+        dispatch(UpdateUserSucess(res.data));
+        toast.success("Profile updated successfully 🥳");
+        setLoading(false)
       }
-    };
-
-    if (response) {
-      handleResponse();
+    } catch (error) {
+      dispatch(UpdateUserFailure(error));
+      console.error(error)
+      toast.error(error)
+      setLoading(false)
     }
-  }, [response, dispatch]);
-  const handleClearProfileImage = () => {
-    setMyUserImage(null);
   };
+
+  useEffect(()=>{
+    if(currentUser?.image){
+      setCondition(true)
+    }else{
+      setCondition(false)
+    }
+  }, [setCondition, currentUser?.image])
   return (
-    <>
-      <div className="p-3 bg-slate-100 min-h-[calc(100vh)]">
-        <div className="w-full max-w-sm bg-white m-auto flex items-center flex-col p-4 mt-24 shadow-md rounded-md">
-          <form
-            className="w-full py-3 flex flex-col"
-            action={async (formData) => {
-              // Assuming the formAction function is defined correctly
-              formAction(formData);
-            }}
-          >
+    <div className="flex h-screen items-center justify-center bg-gray-50">
+      {loadingImage ? (
+        // Loader component or placeholder for loading state
+        <FadeLoader color="#EF4444" speedMultiplier={5} />
+      ) : (
+        <div className="gap-4 w-screen max-w-md rounded-xl shadow-lg p-6 my-12">
+          <h1 className="text-3xl md:2xl text-center font-bold mb-4">
+            User Profile Edit
+          </h1>
 
-            <div className="flex w-full justify-center items-center">
-              {/* //image div */}
+          {/* Profile input field */}
+          <div className="flex flex-col items-center space-y-6">
+            <div className="relative">
               <div className="w-28 h-28 rounded-full flex justify-center items-center border-4 border-red-500 -mr-3">
-                {loadingImage ? (
-                  <FadeLoader color="#EF4444" speedMultiplier={5} />
-                ) : (
-                  <Image
-                    loader={({ src }) => src}
-                    src={myUserImage || tempImage}
-                    width={220}
-                    height={300}
-                    priority
-                    unoptimized
-                    alt="avatar-animation"
-                    className='rounded-full'
-                  />
-                )}
+                <Image
+                  loader={({ src }) => src}
+                  src={myUserImage || tempImage}
+                  width={220}
+                  height={300}
+                  priority
+                  unoptimized
+                  alt="avatar-animation"
+                  className='rounded-full'
+                />
               </div>
-              {/* image div */}
-              {/* buttons div */}
-              <div className="flex flex-col justify-center items-center gap-4">
-
-                <div className="cursor-pointer" onClick={handleClearProfileImage}>
-                  <div className="flex justify-center items-center h-full bg-slate-500 bg-opacity-50 rounded-full">
-                    <p className="text-sm p-1 text-white">
-                      <ImCross className="text-xl text-red-500" />
-                    </p>
-                  </div>
-                </div>
-                <div className="">
-                  <label htmlFor="profileImage" className=" bottom-0 h-1/3 w-full text-center cursor-pointer">
-                    <div className="flex justify-center items-center h-full bg-slate-500 bg-opacity-50 rounded-full">
-                      <p className="text-sm p-1 text-white">
-                        <BiSolidEditAlt className="text-2xl text-blue-500" />
-                      </p>
-                    </div>
-                  </label>
-                </div>
-              </div>
-              {/* buttons div */}
-              {/* Input tag for selecting a new image */}
-              <input
-                type="file"
-                id="profileImage"
-                accept="image/*"
-                className="hidden z-0"
-                name="image"
-                onChange={handleUploadProfileImage}
-              />
+              {condition && (
+                <button
+                  onClick={removeTheProfilePic}
+                  className="flex justify-center items-center absolute top-0 -right-3 text-lg bg-red-500 text-white px-2 py-2 rounded-full border-2"
+                >
+                  <SmallCloseIcon className="text-xl" />
+                </button>
+              )}
             </div>
-            {/* //ending */}
-            <label htmlFor="username">Username</label>
+            <label htmlFor="fileInput" className="cursor-pointer drop-shadow-2xl">
+              Change Icon
+              <input type="file" accept="image/*" onChange={handleUploadProfileImage} style={{ display: "none" }} id="fileInput" />
+            </label>
+          </div>
+          {/* Username input field */}
+          <div className="mt-4">
+            <label htmlFor="username" className="block text-sm font-medium text-gray-700">
+              Username
+            </label>
             <input
-              className="mt-1 mb-2 w-full bg-slate-200 px-2 py-1 rounded focus-within:outline-blue-300"
-              type={"text"}
-              defaultValue={currentUser?.username}
+              type="text"
               id="username"
-              name="username"
+              placeholder="Username"
+              className="mt-1 p-2 border rounded-md w-full"
+              value={myUserName}
               autoComplete="off"
+              onChange={(e) => setMyUserName(e.target.value)}
             />
+          </div>
+          {/* Email input field */}
+          <div className="mt-4">
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+              Email
+            </label>
+            <input type="text" className="mt-1 p-2 font-bold border rounded-md w-full" value={currentUser?.email} autoComplete="off" disabled />
+          </div>
 
-            <label htmlFor="email">Email</label>
-            <input
-              className="mt-1 mb-2 w-full bg-slate-200 px-2 py-1 rounded focus-within:outline-blue-300"
-              type={"email"}
-              id="email"
-              defaultValue={currentUser?.email}
-              disabled
-              name="email"
-              autoComplete="on"
-            />
-            <input type="text" hidden defaultValue={currentUser?._id} name='id' />
-            <SignUpButton name={"Update"} />
-          </form>
+          {/* Update button */}
+          <div className="mt-6">
+            <button
+              className="bg-red-400 text-white w-full hover:bg-red-500 h-10 rounded-md font-bold text-xl"
+              onClick={handleSubmit}
+            >
+              {!loading ? "Update" : <ScaleLoader color="#FFFF00" height={20} width={4} />
+              }
+            </button>
+          </div>
+          {/* Delete account and reset password links */}
+          <div className="flex justify-between font-semibold mt-4">
+            <div>
+              <Link href={"/forgot-password"}>
+                <p className="text-red-700 text-xs md:text-base">Reset Password</p>
+              </Link>
+            </div>
+            <p className="text-red-700 text-xs md:text-base">Delete Account</p>
+          </div>
         </div>
-      </div>
-    </>
-  )
+      )}
+    </div>
+  );
 }
-
-export default Profile;

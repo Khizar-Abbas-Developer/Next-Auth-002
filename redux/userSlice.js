@@ -31,9 +31,8 @@ const userSlice = createSlice({
       state.error = false
     },
     UpdateUserFailure: (state)=>{
-      state.currentUser = null;
       state.loading = false;
-      state.error = action.payload;
+      state.error = false;
     },
     UserSignOut: (state)=>{
       state.currentUser = null,

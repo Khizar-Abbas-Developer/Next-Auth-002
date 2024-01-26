@@ -23,4 +23,4 @@ const ImagetoBase64 = async (file) => {
   // };
 };
 
-export { ImagetoBase64 };
+export default ImagetoBase64;
