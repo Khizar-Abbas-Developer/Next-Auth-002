@@ -67,7 +67,7 @@ export default function UserProfileEdit() {
         image: myUserImage,
         name: myUserName,
       });
-      if(res.status === 200){
+      if (res.status === 200) {
         dispatch(UpdateUserSucess(res.data));
         toast.success("Profile updated successfully 🥳");
         setLoading(false)
@@ -80,10 +80,10 @@ export default function UserProfileEdit() {
     }
   };
 
-  useEffect(()=>{
-    if(currentUser?.image){
+  useEffect(() => {
+    if (currentUser?.image) {
       setCondition(true)
-    }else{
+    } else {
       setCondition(false)
     }
   }, [setCondition, currentUser?.image])
@@ -117,6 +117,7 @@ export default function UserProfileEdit() {
                 <button
                   onClick={removeTheProfilePic}
                   className="flex justify-center items-center absolute top-0 -right-3 text-lg bg-red-500 text-white px-2 py-2 rounded-full border-2"
+                  aria-label="Remove Profile Picture"
                 >
                   <SmallCloseIcon className="text-xl" />
                 </button>
@@ -147,7 +148,7 @@ export default function UserProfileEdit() {
             <label htmlFor="email" className="block text-sm font-medium text-gray-700">
               Email
             </label>
-            <input type="text" className="mt-1 p-2 font-bold border rounded-md w-full" value={currentUser?.email} autoComplete="off" disabled />
+            <input type="email" className="mt-1 p-2 font-bold border rounded-md w-full" value={currentUser?.email} autoComplete="off" disabled />
           </div>
 
           {/* Update button */}
@@ -163,8 +164,8 @@ export default function UserProfileEdit() {
           {/* Delete account and reset password links */}
           <div className="flex justify-between font-semibold mt-4">
             <div>
-              <Link href={"/forgot-password"}>
-                <p className="text-red-700 text-xs md:text-base">Reset Password</p>
+              <Link href={"/forgot-password"} aria-label="Reset Password">
+                <p className="text-red-700 text-xs md:text-base" aria-label="Reset Password">Reset Password</p>
               </Link>
             </div>
             <p className="text-red-700 text-xs md:text-base">Delete Account</p>
