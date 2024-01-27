@@ -89,7 +89,7 @@ const Navbar = () => {
                                     <ImCross className="text-2xl text-red-500" />
                                 </label>
 
-                                <div className="flex flex-col justify-center items-center gap-6 text-lg text-white">
+                                <div className="flex flex-col justify-center items-center gap-6 text-lg text-white" aria-label="my-drawer-4">
                                     {
                                         navLinks.map((link) => {
                                             return (
