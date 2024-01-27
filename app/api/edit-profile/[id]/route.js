@@ -46,7 +46,6 @@ export const POST = async (req, res) => {
     const responseData = { username, email, image, _id, balance };
     return NextResponse.json(responseData, { status: 200 });
   } catch (error) {
-    console.error(error);
     return NextResponse.json({ success: false, message: "Internal Server Error" }, { status: 500 })
   }
 };
