@@ -88,17 +88,16 @@ export default function UserProfileEdit() {
     }
   }, [setCondition, currentUser?.image])
   return (
-    <div className="flex h-screen items-center justify-center bg-gray-50">
+    <div className="flex h-screen items-center justify-center bg-white">
       {loadingImage ? (
         // Loader component or placeholder for loading state
         <FadeLoader color="#EF4444" speedMultiplier={5} />
       ) : (
-        <div className="gap-4 w-screen max-w-md rounded-xl shadow-lg p-6 my-12">
+        <div className="gap-4 w-screen max-w-md rounded-xl shadow-2xl p-6 my-12 bg-gray-100">
           <h1 className="text-3xl md:2xl text-center font-bold mb-4">
             User Profile Edit
           </h1>
 
-          {/* Profile input field */}
           <div className="flex flex-col items-center space-y-6">
             <div className="relative">
               <div className="w-28 h-28 rounded-full flex justify-center items-center border-4 border-red-500 -mr-3">
@@ -123,14 +122,14 @@ export default function UserProfileEdit() {
                 </button>
               )}
             </div>
-            <label htmlFor="fileInput" className="cursor-pointer drop-shadow-2xl">
-              Change Icon
-              <input type="file" accept="image/*" onChange={handleUploadProfileImage} style={{ display: "none" }} id="fileInput" />
+            <label htmlFor="fileInput" className="cursor-pointer drop-shadow-2xl border-2 py-2 px-2 border-slate-500" aria-label="profile">
+              Upload Image
+              <input type="file" accept="image/*" onChange={handleUploadProfileImage} style={{ display: "none" }} id="fileInput" aria-label="upload-profile" />
             </label>
           </div>
           {/* Username input field */}
           <div className="mt-4">
-            <label htmlFor="username" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="username" className="block text-sm font-medium text-gray-700" aria-label="username">
               Username
             </label>
             <input
@@ -141,14 +140,15 @@ export default function UserProfileEdit() {
               value={myUserName}
               autoComplete="off"
               onChange={(e) => setMyUserName(e.target.value)}
+              arial-label="input-username"
             />
           </div>
           {/* Email input field */}
           <div className="mt-4">
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700" aria-label="email">
               Email
             </label>
-            <input type="email" className="mt-1 p-2 font-bold border rounded-md w-full" value={currentUser?.email} autoComplete="off" disabled />
+            <input type="email" className="mt-1 p-2 font-bold border rounded-md w-full" value={currentUser?.email} aria-label="input-email" autoComplete="off" disabled />
           </div>
 
           {/* Update button */}
@@ -156,6 +156,7 @@ export default function UserProfileEdit() {
             <button
               className="bg-red-400 text-white w-full hover:bg-red-500 h-10 rounded-md font-bold text-xl"
               onClick={handleSubmit}
+              aria-label="submit"
             >
               {!loading ? "Update" : <ScaleLoader color="#FFFF00" height={20} width={4} />
               }
@@ -165,10 +166,10 @@ export default function UserProfileEdit() {
           <div className="flex justify-between font-semibold mt-4">
             <div>
               <Link href={"/forgot-password"} aria-label="Reset Password">
-                <p className="text-red-700 text-xs md:text-base" aria-label="Reset Password">Reset Password</p>
+                <p className="text-red-700 text-xs md:text-base">Reset Password</p>
               </Link>
             </div>
-            <p className="text-red-700 text-xs md:text-base">Delete Account</p>
+            <p className="text-red-700 text-xs md:text-base" aria-label="delete-account">Delete Account</p>
           </div>
         </div>
       )}
