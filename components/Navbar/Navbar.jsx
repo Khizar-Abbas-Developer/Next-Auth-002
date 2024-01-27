@@ -104,7 +104,7 @@ const Navbar = () => {
                 </div>
                 </div>
                 <div className="flex-1">
-                    <Link href={"/"} className="">
+                    <Link href={"/"} className="" aria-label="home-page">
                         <Image src={logo} width={40} height={40} className="h-auto w-auto" alt="" priority />
                     </Link>
                 </div>
