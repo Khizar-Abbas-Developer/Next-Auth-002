@@ -148,7 +148,7 @@ export default function UserProfileEdit() {
             <label htmlFor="email" className="block text-sm font-medium text-gray-700" aria-label="email">
               Email
             </label>
-            <input type="email" className="mt-1 p-2 font-bold border rounded-md w-full" value={currentUser?.email} aria-label="input-email" autoComplete="off" disabled />
+            <input type="email" name="email" id="email" className="mt-1 p-2 font-bold border rounded-md w-full" value={currentUser?.email} aria-label="input-email" autoComplete="off" disabled />
           </div>
 
           {/* Update button */}
