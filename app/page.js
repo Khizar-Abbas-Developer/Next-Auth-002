@@ -1,9 +1,10 @@
+import OtpForm from "@/components/OtpForm/page";
 
 export default async function Home() {
 
   return (
     <>
-      <h1 className="">Home Page</h1>
+    <div className="">Home Page</div>
     </>
   )
 };

@@ -6,7 +6,7 @@ const tokenSchema = new Schema({
 		type: Schema.Types.ObjectId,
 		required: true,
 		ref: "user",
-		unique: true, 
+		unique: true,
 	},
     token: { 
         type: String,
@@ -18,13 +18,5 @@ const tokenSchema = new Schema({
     expires: 3600 },
 });
 
-let Token;
-
-try {
-    Token = mongoose.model('Token');
-} catch (error) {
-    // If the model doesn't exist, create it
-    Token = model('Token', tokenSchema);
-}
-
+const Token = mongoose.models.Token || model('Token', tokenSchema);
 export default Token;

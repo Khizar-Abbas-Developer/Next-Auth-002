@@ -19,24 +19,29 @@ export const AuthenticateUser = async (prevState, data) => {
             return { message: errorMessage, status: 400 };
         }
         const user = await User.findOne({ email });
-        if (!user || !(await bcrypt.compare(password, user.password))) {
-            return {message: "Invalid Email or Password", status: 400}
+
+        if (!user) {
+            return { message: "Invalid Email or Password", status: 400 };
+        }
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+        if (!isPasswordValid) {
+            return { message: "Invalid Email or Password", status: 400 };
         }
         if (!user.verified) {
             let token = await Token.findOne({ userId: user._id });
             if (!token) {
-              const tokenValue = crypto.randomBytes(32).toString("hex");
-              token = await new Token({ userId: user._id, token: tokenValue }).save();
-              const url = `${process.env.NEXT_PUBLIC_BASE_URL}/users/${user._id}/verify/${tokenValue}`;
-              await sendEmail(user.email, "Verify Email", url);
+                const tokenValue = crypto.randomBytes(32).toString("hex");
+                token = await new Token({ userId: user._id, token: tokenValue }).save();
+                const url = `${process.env.NEXT_PUBLIC_BASE_URL}/users/${user._id}/verify/${tokenValue}`;
+                await sendEmail(user.email, "Verify Email", url);
             }
-            return {message: "Verification link sent to your email verify your Account first", status: 201}
+            return { message: "Verification link sent to your email verify your Account first", status: 201 }
         }
         const { username, email: userEmail, _id, image, balance } = user;
         const stringifiedId = _id.toString();
-        const bUser = { username, email: userEmail, _id: stringifiedId, image, balance };    
-        return {user: bUser, message: "Logged in successfully", status: 202}
+        const bUser = { username, email: userEmail, _id: stringifiedId, image, balance };
+        return { user: bUser, message: "Logged in successfully", status: 202 }
     } catch (error) {
-        return {message: "Internal Server Error", status: 500}
+        return { message: "Internal Server Error", status: 500 }
     }
 }

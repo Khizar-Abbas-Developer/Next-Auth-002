@@ -4,9 +4,19 @@ import connectMongoDB from "@/libs/mongodb";
 import Token from "@/models/token";
 import User from "@/models/user";
 import sendEmail from "@/utils/sendEmail";
-import crypto from "crypto";
 import Joi from "joi";
 
+const generateNumericOTP = () => Math.floor(1000 + Math.random() * 9000).toString();
+
+// Function to create a new user and generate OTP
+const generateOTP = async (id) => {
+    const token = await new Token({
+        userId: id,
+        token: generateNumericOTP(),
+    }).save();
+
+    return { token };
+};
 export const ForgotAPI = async (prevState, data) => {
     connectMongoDB();
     const email = data.get("email");
@@ -18,29 +28,20 @@ export const ForgotAPI = async (prevState, data) => {
         if (error) {
             return { message: error.details[0].message, status: 400 }
         }
-
         let user = await User.findOne({ email });
         if (!user) {
             return { message: "User with given email does not exist! Create an account", status: 400 }
         }
-
-        let token = await Token.findOne({ userId: user._id });
-        if (token) {
+        let existingToken = await Token.findOne({ userId: user._id });
+        if (existingToken) {
             // Token already exists, indicating that the reset link has already been sent
-            return { message: "Reset Link already sent try again after 1 hour", status: 200 }
+            return { message: "Reset Link already sent try again after 1 hour", status: 404 }
         }
-
-        // If token doesn't exist, generate a new one and proceed to send the reset link
-        token = await new Token({
-            userId: user._id,
-            token: crypto.randomBytes(32).toString("hex"),
-        }).save();
-
-        const url = `${process.env.NEXT_PUBLIC_BASE_URL}/password-reset/${user._id}/${token.token}/`;
-        await sendEmail(user.email, "Password Reset", url);
-
-        return { message: `Password reset link sent to ${user.email}`, status: 200 }
+        const { token } = await generateOTP(user._id)
+        await sendEmail(user.email, "Reset Password OTP Code", `${token.token}`, 'Reset Password');
+        return { id: user._id.toString(), message: "OTP sent for email verification", status: 201 };
     } catch (error) {
-        return {message: "Internal Server Error!", status: 500}
+        console.error(error)
+        return { message: "Internal Server Error!", status: 500 }
     }
 }

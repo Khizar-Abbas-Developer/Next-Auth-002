@@ -2,19 +2,21 @@
 import User, { validate } from "@/models/user";
 import connectMongoDB from "@/libs/mongodb";
 import Token from "@/models/token";
-import bcrypt from "bcrypt";
+import bcrypt, { hash } from "bcrypt";
 import crypto from "crypto";
 import sendEmail from "@/utils/sendEmail";
 
 //
-const sendVerificationEmail = async (user) => {
+const generateNumericOTP = () => Math.floor(1000 + Math.random() * 9000).toString();
+
+// Function to create a new user and generate OTP
+const createUsers = async (id) => {
     const token = await new Token({
-        userId: user._id,
-        token: crypto.randomBytes(32).toString("hex")
+        userId: id,
+        token: generateNumericOTP(),
     }).save();
-    const url = `${process.env.NEXT_PUBLIC_BASE_URL}/users/${user._id}/verify/${token.token}`;
-    await sendEmail(user.email, "Email Verification", url);
-    return true;
+
+    return { token };
 };
 //
 export const createUser = async (prevState, data) => {
@@ -24,7 +26,6 @@ export const createUser = async (prevState, data) => {
     const confirmpassword = data.get("confirmpassword");
     try {
         await connectMongoDB();
-
         const { error } = validate({ username, email, password });
         if (error) {
             const errorMessage = error.details.map((detail) => detail.message).join(', ');
@@ -32,21 +33,18 @@ export const createUser = async (prevState, data) => {
         }
         if (password !== confirmpassword) {
             return { message: "password and confirm password should match!", status: 400 }
-        }
-        // Check if user with the given email already exists
-        const hashedPassword = await bcrypt.hash(password, 10);
-
+        }        
         let existingUser = await User.findOne({ email });
         if (existingUser) {
             return { message: "User with given email already exists!", status: 409 }
         }
-        let newUser = await User.create({ username, email, password: hashedPassword });
-        // Send verification email
-        await sendVerificationEmail(newUser);
-
-        return { message: `Verification link send to ${newUser.email}`, status: 201 }
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const newUser = await User.create({ username, email, password: hashedPassword });
+        const { token } = await createUsers(newUser._id);
+        await sendEmail(newUser.email, "verification OTP Code", `${token.token}`, 'otpVerification');
+        return { id: newUser._id.toString(), status: 201 }
     } catch (error) {
-    console.error(error);
-    return { message: "Internal Server Error", status: 500 };
-}
+        console.error(error);
+        return { message: "Internal Server Error", status: 500 };
+    }
 };

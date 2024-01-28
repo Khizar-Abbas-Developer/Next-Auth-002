@@ -11,7 +11,9 @@ import { createUser } from '@/app/(Auth)/signup/_action';
 import toast from 'react-hot-toast';
 import { MoonLoader } from 'react-spinners';
 import SignUpButton from "@/components/SubmitButton/SubmitButton";
+import { redirect, useRouter } from 'next/navigation';
 const SignupForm = () => {
+  const router = useRouter();
   const formRef = useRef(null);
   const [msg, setMsg] = useState("");
   const [response, formAction] = useFormState(createUser, 0);
@@ -37,11 +39,7 @@ const SignupForm = () => {
       const server_Error = 500;
       const conflict = 409;
       if (response.status === success) {
-        toast.success(response.message);
-        setMsg(response.message);
-        setData("");
-        // resetting the input fields of the form
-        formRef.current?.reset();
+        redirect(`/email-verification/${response.id}`)
       } else if (response.status === bad_Request) {
         toast.error(response.message);
       } else if (response.status === server_Error) {
@@ -58,7 +56,6 @@ const SignupForm = () => {
         toast.error(response.message)
       }
     };
-
     if (response) {
       handleResponse();
     }

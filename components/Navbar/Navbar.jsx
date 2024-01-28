@@ -7,7 +7,7 @@ import logo from "@/public/logo.png";
 import { useSelector, useDispatch } from "react-redux";
 import { useCallback, useEffect, useState } from "react";
 import { FiEdit } from "react-icons/fi";
-import { usePathname, useRouter } from "next/navigation";
+import { redirect, usePathname, useRouter } from "next/navigation";
 import defaultImg from "@/public/125.gif";
 import { HiOutlineUserCircle } from "react-icons/hi";
 
@@ -66,22 +66,22 @@ const Navbar = () => {
 
     const navigateLogin = () => {
         if (!authorized) {
-            router.replace("/login");
+            router.push("/login")
         }
     }
     return (
         <>
             <div className="navbar bg-base-500 drop-shadow-md bg-black md:px-5 text-white">
                 <div className="">
-                <div className="flex-none md:hidden z-10 relative">
+                <div className="flex-none md:hidden">
                     <label htmlFor="my-drawer-4" className="drawer-button ml-2 mr-4 flex justify-center items-center bg-red-500 px-2 py-1 rounded-sm">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-5 h-5 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
                     </label>
                     {/* //Drawer */}
-                    <div className="drawer drawer-start">
+                    <div className="drawer drawer-start overflow-hidden bg-black">
                         <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
 
-                        <div className="drawer-side">
+                        <div className="drawer-side z-50">
                             <label htmlFor="my-drawer-4" aria-label="close sidebar" className="drawer-overlay">
                             </label>
                             <ul className="menu p-4 w-80 min-h-full text-base-content bg-black">

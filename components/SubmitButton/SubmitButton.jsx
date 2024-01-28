@@ -21,3 +21,22 @@ const SignUpButton = ({ name }) => {
     );
 };
 export default SignUpButton;
+export const SubmitButton = ()=>{
+    const { pending } = useFormStatus();
+
+    return(
+        <button className='bg-red-400 hover:bg-red-500 text-white w-full mt-4 h-[42px] rounded-md font-bold'>
+                        {pending ? (
+                <>
+                    <div className="mt-1">
+                        <ScaleLoader color="#FFFF00" height={20} width={4} />
+                    </div>
+                </>
+            ) : (
+                <>
+                    {"Verify"}
+                </>
+            )}
+        </button>
+    )
+}

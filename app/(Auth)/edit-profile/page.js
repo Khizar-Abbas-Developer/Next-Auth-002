@@ -1,7 +1,8 @@
 "use client"
-import { SmallCloseIcon } from "@chakra-ui/icons";
 import React, { useEffect, useState } from "react";
 import loginSignUpImage from "@/public/empty-profile.png";
+import { FaCloudUploadAlt } from "react-icons/fa";
+import { SmallCloseIcon } from "@chakra-ui/icons";
 import { toast } from "react-hot-toast";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,8 +17,8 @@ export default function UserProfileEdit() {
   const tempImage = loginSignUpImage;
   const [loadingImage, setLoadingImage] = useState(true);
   const currentUser2 = useSelector((state) => state.user);
-  const [loading, setLoading] = useState(false);
   const [condition, setCondition] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [myUserName, setMyUserName] = useState(currentUser?.username || "");
   const [myUserImage, setMyUserImage] = useState(currentUser?.image || "");
   const [dataToUpdate, setDataToUpdate] = useState({});
@@ -26,7 +27,6 @@ export default function UserProfileEdit() {
     height: "100px",
     borderRadius: "50%",
     border: "4px solid transparent",
-    boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.1)",
     backgroundImage: "linear-gradient(49deg, #f09433, #e6683c, #dc2743, #cc2366)",
   };
 
@@ -79,53 +79,57 @@ export default function UserProfileEdit() {
       setLoading(false)
     }
   };
-
-  useEffect(() => {
-    if (currentUser?.image) {
-      setCondition(true)
-    } else {
-      setCondition(false)
-    }
-  }, [setCondition, currentUser?.image])
+  // useEffect(() => {
+  //   if (currentUser?.image) {
+  //     setCondition(true)
+  //   } else {
+  //     setCondition(false)
+  //   }
+  // }, [setCondition, currentUser?.image])
   return (
-    <div className="flex h-screen items-center justify-center bg-white">
+    <div className="flex h-screen items-center justify-center bg-white z-0">
       {loadingImage ? (
         // Loader component or placeholder for loading state
         <FadeLoader color="#EF4444" speedMultiplier={5} />
       ) : (
-        <div className="gap-4 w-screen max-w-md rounded-xl shadow-2xl p-6 my-12 bg-gray-100">
+        <div className="gap-4 w-screen max-w-md rounded-xl p-6 my-12 bg-gray-100">
           <h1 className="text-3xl md:2xl text-center font-bold mb-4">
             User Profile Edit
           </h1>
 
           <div className="flex flex-col items-center space-y-6">
-            <div className="relative">
-              <div className="w-28 h-28 rounded-full flex justify-center items-center border-4 border-red-500 -mr-3">
+            <div className="flex">
+              <div className="w-28 h-28 overflow-hidden rounded-full flex justify-center items-center border-4 border-red-500 -mr-3">
                 <Image
                   loader={({ src }) => src}
                   src={myUserImage || tempImage}
-                  width={220}
-                  height={300}
+                  width={120}
+                  height={120}
                   priority
                   unoptimized
                   alt="avatar-animation"
-                  className='rounded-full'
+                  className='rounded-full h-auto w-[120px] z-1'
+                  aria-label="profile"
                 />
               </div>
-              {condition && (
-                <button
-                  onClick={removeTheProfilePic}
-                  className="flex justify-center items-center absolute top-0 -right-3 text-lg bg-red-500 text-white px-2 py-2 rounded-full border-2"
-                  aria-label="Remove Profile Picture"
-                >
-                  <SmallCloseIcon className="text-xl" />
-                </button>
-              )}
+              <div className="-ml-6">
+                {condition && (
+                  <button
+                    onClick={removeTheProfilePic}
+                    className="flex justify-center items-center top-0 -right-3 text-lg bg-red-500 text-white px-2 py-2 rounded-full border-2"
+                    aria-label="Remove Profile Picture"
+                  >
+                    <SmallCloseIcon className="text-lg" />
+                  </button>
+                )}
+              </div>
             </div>
-            <label htmlFor="fileInput" className="cursor-pointer drop-shadow-2xl border-2 py-2 px-2 border-slate-500" aria-label="profile">
-              Upload Image
-              <input type="file" accept="image/*" onChange={handleUploadProfileImage} style={{ display: "none" }} id="fileInput" aria-label="upload-profile" />
-            </label>
+            <div className="flex justify-center items-center gap-4 w-full mx-auto">
+              <label htmlFor="fileInput" className="cursor-pointer" aria-label="profile">
+                <FaCloudUploadAlt className="text-5xl" />
+                <input type="file" accept="image/*" onChange={handleUploadProfileImage} style={{ display: "none" }} id="fileInput" aria-label="upload-profile" />
+              </label>
+            </div>
           </div>
           {/* Username input field */}
           <div className="mt-4">
@@ -169,7 +173,6 @@ export default function UserProfileEdit() {
                 <p className="text-red-700 text-xs md:text-base">Reset Password</p>
               </Link>
             </div>
-            <p className="text-red-700 text-xs md:text-base" aria-label="delete-account">Delete Account</p>
           </div>
         </div>
       )}
