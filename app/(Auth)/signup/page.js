@@ -5,7 +5,7 @@ import { MoonLoader } from 'react-spinners';
 import SignUpButton from "@/components/SubmitButton/SubmitButton";
 import Form from '@/components/Signup/Comp-1';
 import { createUser } from './_action';
-import { redirect } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
 import SigninButton from '@/components/SigninButton/SigninButton';
 let msg = "";
@@ -14,6 +14,7 @@ const resetMsg = () => {
   msg = "";
 };
 const SignupForm = () => {
+  const router = useRouter();
   const handleSubmit = async (formData) => {
     "use server"
     const { status, id, message } = await createUser({
@@ -23,6 +24,7 @@ const SignupForm = () => {
       confirmpassword: formData.get("confirmpassword")
     });
     if (status === 201) {
+      router.push(`/email-verification/${id}`)
       redirect(`/email-verification/${id}`);
     } else {
       msg = message;
@@ -33,7 +35,7 @@ const SignupForm = () => {
     <>
       <div className="p-3 bg-slate-100 min-h-[calc(100vh)]">
         <div className="w-full max-w-sm bg-white m-auto flex items-center flex-col p-4 mt-24 shadow-md rounded-md">
-        <div variant={"success"} className="bg-red-400 w-full h-full text-center font-bold">{msg ? msg : ""}</div>
+        <div className="bg-red-400 w-full h-full text-center font-bold">{msg ? msg : ""}</div>
           <form
             className="w-full py-3 flex flex-col"
             action={handleSubmit}
