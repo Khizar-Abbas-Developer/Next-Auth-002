@@ -1,11 +1,11 @@
 import Image from 'next/image';
 import loginSignUpImage from "@/public/1.gif";
 import Link from 'next/link';
+import { redirect } from 'next/navigation'
 import { MoonLoader } from 'react-spinners';
 import SignUpButton from "@/components/SubmitButton/SubmitButton";
 import Form from '@/components/Signup/Comp-1';
 import { createUser } from './_action';
-import { redirect, useRouter } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
 import SigninButton from '@/components/SigninButton/SigninButton';
 let msg = "";
@@ -14,7 +14,6 @@ const resetMsg = () => {
   msg = "";
 };
 const SignupForm = () => {
-  const router = useRouter();
   const handleSubmit = async (formData) => {
     "use server"
     const { status, id, message } = await createUser({
@@ -24,8 +23,7 @@ const SignupForm = () => {
       confirmpassword: formData.get("confirmpassword")
     });
     if (status === 201) {
-      router.push(`/email-verification/${id}`)
-      redirect(`/email-verification/${id}`);
+      redirect(`/email-verification/${id}`)
     } else {
       msg = message;
       revalidatePath("/signup")
