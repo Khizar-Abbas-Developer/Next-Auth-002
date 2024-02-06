@@ -6,7 +6,7 @@ import { ImCross } from "react-icons/im";
 import logo from "@/public/logo.png";
 import { useSelector, useDispatch } from "react-redux";
 import { useCallback, useEffect, useState } from "react";
-import { FiEdit } from "react-icons/fi";
+import { FiEdit } from "react-icons/fi"; 
 import { redirect, usePathname, useRouter } from "next/navigation";
 import defaultImg from "@/public/125.gif";
 import { HiOutlineUserCircle } from "react-icons/hi";
