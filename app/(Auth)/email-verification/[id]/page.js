@@ -17,41 +17,52 @@ const Page = ({ params }) => {
   const [responseAgain, verify] = useFormState(verifyUser, 0)
   useEffect(() => {
     return () => {
+      console.log(`Checkpost#1`);
       formAction(usersId);
+      console.log(`Checkpost#2`);
     }
   }, [usersId, formAction]);
 
   //handle
   useEffect(() => {
+    console.log(`Checkpost#3`);
     const handleResponse = () => {
 
       if (response.status === 201) {
+        console.log(`Checkpost#6`);
         const email = response.email;
         setUserId(response.id);
         setUserEmail(response.email);
         setLoading(false);
         toast.success(response.message)
       } else if (response.status === 404) {
+        console.log(`Checkpost#7`);
         toast.error(response.message);
       } else if (response.status === 500) {
+        console.log(`Checkpost#8`);
         toast.error(response.message);
       }
     };
 
     if (response) {
+      console.log(`Checkpost#4`);
       handleResponse();
+      console.log(`Checkpost#5`);
     }
   }, [response]);
   //handle second response which is verifyResponse
   useEffect(() => {
+    console.log(`Checkpost#9`);
     const verifyResponse = () => {
 
       if (responseAgain.status === 200) {
+        console.log(`Checkpost#10`);
         setLoading(false);
         toast.success(responseAgain.message)
         redirect("/login")
         toast.success(responseAgain.message)
       } else if(responseAgain.status === 201){
+        console.log(`Checkpost#11`);
         redirect(`/email-verification/${response.id}`)
         toast.success(responseAgain.message)
       } else if (responseAgain.status === 404) {
@@ -61,7 +72,9 @@ const Page = ({ params }) => {
       }
     };
     if (responseAgain) {
+      console.log(`Checkpost#12`);
       verifyResponse();
+      console.log(`Checkpost#13`);
     }
   }, [responseAgain, response.id]);
   if (loading) {
