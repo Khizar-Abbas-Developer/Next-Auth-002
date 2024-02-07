@@ -11,7 +11,7 @@ import Image from "next/image";
 import { FadeLoader, ScaleLoader } from "react-spinners";
 import { UpdateUserFailure, UpdateUserSucess, updateUserStart } from "@/redux/userSlice";
 
-const Profile = ({onProfileData }) => {
+const Profile = () => {
     const dispatch = useDispatch();
     const currentUser = useSelector((state) => state.user.currentUser);
     const tempImage = loginSignUpImage;
@@ -79,13 +79,6 @@ const Profile = ({onProfileData }) => {
         }
     };
         // Lift state up by calling the function with profile data
-        const handleProfileData = () => {
-            onProfileData(currentUser);
-        };
-        // Call handleProfileData when component mounts
-        useEffect(() => {
-            handleProfileData();
-        }, []);
     return (
         <>
             <div className="flex h-screen items-center justify-center bg-white z-0">
