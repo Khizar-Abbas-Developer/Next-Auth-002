@@ -6,8 +6,8 @@ export const metadata = {
     icon: [
       {
         media: '(prefers-color-scheme: light)',
-        url: '/images/icon-light.png',
-        href: '/images/icon-light.png',
+        url: '/125.gif',
+        href: '/edit-profile',
       }
     ],
     // apple: ["/cross.png"],
