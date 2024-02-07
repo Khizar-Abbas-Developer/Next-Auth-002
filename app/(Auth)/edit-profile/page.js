@@ -1,5 +1,6 @@
 "use client"
 import React, { useEffect, useState } from "react";
+import { Metadata } from 'next'
 import loginSignUpImage from "@/public/empty-profile.png";
 import { FaCloudUploadAlt } from "react-icons/fa";
 import { SmallCloseIcon } from "@chakra-ui/icons";
@@ -10,6 +11,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { FadeLoader, ScaleLoader } from "react-spinners";
 import { UpdateUserFailure, UpdateUserSucess, updateUserStart } from "@/redux/userSlice";
+
 
 export default function UserProfileEdit() {
   const dispatch = useDispatch();
@@ -29,6 +31,14 @@ export default function UserProfileEdit() {
     border: "4px solid transparent",
     backgroundImage: "linear-gradient(49deg, #f09433, #e6683c, #dc2743, #cc2366)",
   };
+  const image = currentUser?.image;
+  const name = currentUser?.username;
+  const email = currentUser?.email;
+  const metadata = {
+    title: { name },
+    description: { email },
+    image: { image }
+  }
 
   useEffect(() => {
     // Set myUserImage initially when currentUser is available
