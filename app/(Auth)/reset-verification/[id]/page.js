@@ -81,11 +81,13 @@ const Page = ({ params }) => {
         >
           {userEmail ? <OtpForm userEmail={userEmail} userId={userId} /> : <h1 className="text-center flex justify-center items-center h-96 text-3xl">Verification token is expired!</h1>}
         </form>
-        {
+        {/* {
           !state && (
-            <button onClick={handleVerify} className="px-4 py-4 bg-black text-red-500 border-none rounded-lg text-md">Click to Verify</button>
+            <div className="flex justify-center items-center h-full">
+            <button onClick={handleFormAction} className="px-4 py-4 bg-black text-red-500 border-none rounded-lg text-md">Click to Verify</button>
+            </div>
           )
-        }
+        } */}
       </>
     </>
   );
