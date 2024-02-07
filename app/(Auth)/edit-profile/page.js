@@ -5,7 +5,7 @@ export const metadata = {
   icons: {
     icon: [
       {
-        media: '(prefers-color-scheme: light)',
+        media: '/125.gif',
         url: '/125.gif',
         href: '/edit-profile',
       }
