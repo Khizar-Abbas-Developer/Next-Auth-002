@@ -68,7 +68,7 @@ const Profile = () => {
             });
             if (res.status === 200) {
                 dispatch(UpdateUserSucess(res.data));
-                toast.success("Profile updated successfully 🥳");
+                toast.success("update successfully");
                 setLoading(false)
             }
         } catch (error) {
@@ -93,17 +93,22 @@ const Profile = () => {
                         <div className="flex flex-col items-center space-y-6">
                             <div className="flex">
                                 <div className="w-28 h-28 overflow-hidden rounded-full flex justify-center items-center border-4 border-red-500 -mr-3">
-                                    <Image
-                                        loader={({ src }) => src}
-                                        src={myUserImage || tempImage}
-                                        width={120}
-                                        height={120}
-                                        priority
-                                        unoptimized
-                                        alt="avatar-animation"
-                                        className='rounded-full h-auto w-[120px] z-1'
-                                        aria-label="profile"
-                                    />
+                                    <div className="flex justify-center items-center gap-4 w-full mx-auto bg-red-600">
+                                        <label htmlFor="fileInput" className="cursor-pointer" aria-label="profile">
+                                            <Image
+                                                loader={({ src }) => src}
+                                                src={myUserImage || tempImage}
+                                                width={120}
+                                                height={120}
+                                                priority
+                                                unoptimized
+                                                alt="avatar-animation"
+                                                className='rounded-full h-auto w-[120px] z-1'
+                                                aria-label="profile"
+                                            />
+                                            <input type="file" accept="image/*" onChange={handleUploadProfileImage} style={{ display: "none" }} id="fileInput" aria-label="upload-profile" />
+                                        </label>
+                                    </div>
                                 </div>
                                 <div className="-ml-6">
                                     {condition && (
@@ -117,12 +122,7 @@ const Profile = () => {
                                     )}
                                 </div>
                             </div>
-                            <div className="flex justify-center items-center gap-4 w-full mx-auto">
-                                <label htmlFor="fileInput" className="cursor-pointer" aria-label="profile">
-                                    <FaCloudUploadAlt className="text-5xl" />
-                                    <input type="file" accept="image/*" onChange={handleUploadProfileImage} style={{ display: "none" }} id="fileInput" aria-label="upload-profile" />
-                                </label>
-                            </div>
+
                         </div>
                         {/* Username input field */}
                         <div className="mt-4">
