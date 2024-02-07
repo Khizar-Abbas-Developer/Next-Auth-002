@@ -12,24 +12,20 @@ const Page = ({ params }) => {
   const router = useRouter();
   const [userEmail, setUserEmail] = useState(null); // State to store user email
   const [userId, setUserId] = useState(null); // State to store user email
-  const [loading, setLoading] = useState(true); // State to track loading state
+  const [loading, setLoading] = useState(false); // State to track loading state
   const [response, formAction] = useFormState(verifyEmail, 0);
   const [responseAgain, verify] = useFormState(verifyUser, 0)
   useEffect(() => {
     return () => {
-      console.log(`Checkpost#1`);
       formAction(usersId);
-      console.log(`Checkpost#2`);
     }
   }, [usersId, formAction]);
 
   //handle
   useEffect(() => {
-    console.log(`Checkpost#3`);
     const handleResponse = () => {
 
       if (response.status === 201) {
-        console.log(`Checkpost#6`);
         const email = response.email;
         setUserId(response.id);
         setUserEmail(response.email);
