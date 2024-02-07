@@ -13,19 +13,15 @@ const Page = ({ params }) => {
   const [state, setState] = useState(false);
   const [userEmail, setUserEmail] = useState(null); // State to store user email
   const [userId, setUserId] = useState(null); // State to store user email
-  const [loading, setLoading] = useState(true); // State to track loading state
+  const [loading, setLoading] = useState(false); // State to track loading state
   const [response, formAction] = useFormState(verifyEmail, 0);
   const [responseAgain, verify] = useFormState(verifyUser, 0)
 
 
   const handleFormAction = () => {
+    setLoading(true)
     formAction(usersId);
   }
-  useEffect(() => {
-    return () => {
-      handleFormAction();
-    }
-  }, []);
 
   //handle
   useEffect(() => {
@@ -35,11 +31,14 @@ const Page = ({ params }) => {
         const email = response.email;
         setUserId(response.id);
         setUserEmail(response.email);
+        setState(true)
         setLoading(false);
         toast.success(response.message)
       } else if (response.status === 404) {
+        setState(true)
         toast.error(response.message);
       } else if (response.status === 500) {
+        setState(true)
         toast.error(response.message);
       }
     };
@@ -79,15 +78,16 @@ const Page = ({ params }) => {
             verify(formData, userId);
           }}
         >
-          {userEmail ? <OtpForm userEmail={userEmail} userId={userId} /> : <h1 className="text-center flex justify-center items-center h-96 text-3xl">Verification token is expired!</h1>}
+          {userEmail ? <OtpForm userEmail={userEmail} userId={userId} /> : null}
+          {/* <h1 className="text-center flex justify-center items-center h-96 text-3xl">Verification token is expired!</h1> */}
         </form>
-        {/* {
+        {
           !state && (
             <div className="flex justify-center items-center h-full">
-            <button onClick={handleFormAction} className="px-4 py-4 bg-black text-red-500 border-none rounded-lg text-md">Click to Verify</button>
+              <button onClick={handleFormAction} className="px-4 py-4 bg-black text-red-500 border-none rounded-lg text-md">Click to Verify</button>
             </div>
           )
-        } */}
+        }
       </>
     </>
   );
