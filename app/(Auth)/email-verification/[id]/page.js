@@ -10,18 +10,20 @@ import { redirect, useRouter } from 'next/navigation';
 const Page = ({ params }) => {
   const usersId = params.id;
   const router = useRouter();
+  const [state, setState] = useState(false);
   const [userEmail, setUserEmail] = useState(null); // State to store user email
   const [userId, setUserId] = useState(null); // State to store user email
-  const [loading, setLoading] = useState(false); // State to track loading state
+  const [loading, setLoading] = useState(true); // State to track loading state
   const [response, formAction] = useFormState(verifyEmail, 0);
   const [responseAgain, verify] = useFormState(verifyUser, 0)
-  useEffect(() => {
-    return () => {
-      console.log("checkpost#001");
-      formAction(usersId);
-    }
-  }, [usersId, formAction]);
-
+  const handleVerify = ()=>{
+    formAction(usersId);
+  }
+  useEffect(()=>{
+    return(
+      handleVerify()
+    )
+  }, [])
   //handle
   useEffect(() => {
     const handleResponse = () => {
@@ -30,12 +32,15 @@ const Page = ({ params }) => {
         const email = response.email;
         setUserId(response.id);
         setUserEmail(response.email);
+        setState(true)
         setLoading(false);
         toast.success(response.message)
       } else if (response.status === 404) {
         console.log(`Checkpost#7`);
+        setState(true)
         toast.error(response.message);
       } else if (response.status === 500) {
+        setState(true)
         console.log(`Checkpost#8`);
         toast.error(response.message);
       }
@@ -58,7 +63,7 @@ const Page = ({ params }) => {
         toast.success(responseAgain.message)
         redirect("/login")
         toast.success(responseAgain.message)
-      } else if(responseAgain.status === 201){
+      } else if (responseAgain.status === 201) {
         console.log(`Checkpost#11`);
         redirect(`/email-verification/${response.id}`)
         toast.success(responseAgain.message)
@@ -88,7 +93,13 @@ const Page = ({ params }) => {
           {userEmail ? <OtpForm userEmail={userEmail} userId={userId} /> : <h1 className="text-center flex justify-center items-center h-96 text-3xl">Verification token is expired!</h1>}
 
         </form>
-        {!response && <button>Click to enter the Verification OTP</button>}
+        {/* {
+          !state && (
+            <div className="flex justify-center items-center h-full">
+            <button onClick={handleVerify} className="px-4 py-4 bg-black text-red-500 border-none rounded-lg text-md">Click to Enter OTP</button>
+            </div>
+          )
+        } */}
       </>
     </>
   );
