@@ -15,11 +15,14 @@ const Page = ({ params }) => {
   const [loading, setLoading] = useState(true); // State to track loading state
   const [response, formAction] = useFormState(verifyEmail, 0);
   const [responseAgain, verify] = useFormState(verifyUser, 0)
+  const handleFormAction = () => {
+    formAction(usersId);
+  }
   useEffect(() => {
     return () => {
-      formAction(usersId);
+      formAction();
     }
-  }, [usersId, formAction]);
+  }, []);
 
   //handle
   useEffect(() => {
@@ -49,7 +52,7 @@ const Page = ({ params }) => {
       if (responseAgain.status === 200) {
         setLoading(false);
         redirect(`/password-reset/${responseAgain.id}`)
-      } else if(responseAgain.status === 201){
+      } else if (responseAgain.status === 201) {
         router.replace(`/reset-verification/${response.id}`)
         toast.success(responseAgain.message)
       } else if (responseAgain.status === 404) {
