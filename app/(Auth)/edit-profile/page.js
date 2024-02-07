@@ -1,5 +1,6 @@
+"use client"
 import Profile from "@/components/Profile/Profile";
-export const metadata = {
+const metadata = {
   openGraph: {
     title: 'Next.js',
     description: 'The React Framework for the Web',
@@ -17,9 +18,12 @@ export const metadata = {
   },
 }
 export default function UserProfileEdit() {
+  const handleProfileData = (data) => {
+    console.log(data);
+  };
   return (
     <>
-      <Profile />
+      <Profile onProfileData={handleProfileData} />
     </>
   );
 }
