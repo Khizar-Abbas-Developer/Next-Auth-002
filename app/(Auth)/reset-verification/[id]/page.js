@@ -10,17 +10,20 @@ import { redirect, useRouter } from 'next/navigation';
 const Page = ({ params }) => {
   const usersId = params.id;
   const router = useRouter();
+  const [state, setState] = useState(false);
   const [userEmail, setUserEmail] = useState(null); // State to store user email
   const [userId, setUserId] = useState(null); // State to store user email
   const [loading, setLoading] = useState(true); // State to track loading state
   const [response, formAction] = useFormState(verifyEmail, 0);
   const [responseAgain, verify] = useFormState(verifyUser, 0)
+
+
   const handleFormAction = () => {
     formAction(usersId);
   }
   useEffect(() => {
     return () => {
-      formAction();
+      handleFormAction();
     }
   }, []);
 
@@ -78,6 +81,11 @@ const Page = ({ params }) => {
         >
           {userEmail ? <OtpForm userEmail={userEmail} userId={userId} /> : <h1 className="text-center flex justify-center items-center h-96 text-3xl">Verification token is expired!</h1>}
         </form>
+        {
+          !state && (
+            <button onClick={handleVerify} className="px-4 py-4 bg-black text-red-500 border-none rounded-lg text-md">Click to Verify</button>
+          )
+        }
       </>
     </>
   );
