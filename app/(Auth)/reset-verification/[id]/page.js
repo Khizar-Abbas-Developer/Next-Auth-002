@@ -83,7 +83,7 @@ const Page = ({ params }) => {
         </form>
         {
           !state && (
-            <div className="flex justify-center items-center h-full">
+            <div className="flex justify-center items-center h-full mt-24">
               <button onClick={handleFormAction} className="px-4 py-4 bg-black text-red-500 border-none rounded-lg text-md">Click to Verify</button>
             </div>
           )
