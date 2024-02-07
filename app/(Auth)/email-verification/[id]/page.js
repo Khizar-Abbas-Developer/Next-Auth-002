@@ -17,6 +17,7 @@ const Page = ({ params }) => {
   const [responseAgain, verify] = useFormState(verifyUser, 0)
   useEffect(() => {
     return () => {
+      console.log("checkpost#001");
       formAction(usersId);
     }
   }, [usersId, formAction]);
@@ -85,7 +86,9 @@ const Page = ({ params }) => {
           }}
         >
           {userEmail ? <OtpForm userEmail={userEmail} userId={userId} /> : <h1 className="text-center flex justify-center items-center h-96 text-3xl">Verification token is expired!</h1>}
+
         </form>
+        {!response && <button>Click to enter the Verification OTP</button>}
       </>
     </>
   );
