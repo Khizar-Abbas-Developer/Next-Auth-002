@@ -18,7 +18,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <NextTopLoader color='red' showSpinner={false} />
+        <NextTopLoader color='red' easing="ease" showSpinner={false} />
         <Toaster />
         <ReduxProvider>
           <Navbar />

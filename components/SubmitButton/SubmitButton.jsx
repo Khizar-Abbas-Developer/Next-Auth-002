@@ -34,7 +34,7 @@ export const SubmitButton = ()=>{
                 </>
             ) : (
                 <>
-                    {"Verify"}
+                    {"Update"}
                 </>
             )}
         </button>

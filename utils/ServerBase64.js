@@ -5,7 +5,7 @@ export const handleImageConversion = async (imageFile) => {
         const base64String = Buffer.from(buffer).toString('base64');
 
         // Check if base64String is not empty before adding the prefix
-        const prefixedBase64String = base64String ? `data:image/png;base64,${base64String}` : '';
+        const prefixedBase64String = base64String ? `data:image/jpeg;base64,${base64String}` : '';
 
         return prefixedBase64String;
     } catch (error) {
