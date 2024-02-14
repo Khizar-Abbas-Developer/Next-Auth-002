@@ -13,8 +13,12 @@ import Image from "next/image";
 import { FadeLoader, ScaleLoader } from "react-spinners";
 import { UpdateUserFailure, UpdateUserSucess, signInFailure, updateUserStart } from "@/redux/userSlice";
 import { SubmitButton } from "../SubmitButton/SubmitButton";
+import { redirect, useRouter } from "next/navigation";
+import { revalidatePath } from "next/cache";
+import Skeleton from "./Skeleton";
 
 const Profile = () => {
+    const router = useRouter();
     const dispatch = useDispatch();
     const currentUser = useSelector((state) => state.user.currentUser);
     const tempImage = loginSignUpImage;
@@ -27,6 +31,12 @@ const Profile = () => {
     const [myUserName, setMyUserName] = useState(currentUser?.username || "");
     const [myUserImage, setMyUserImage] = useState(currentUser?.image || "");
     const [dataToUpdate, setDataToUpdate] = useState({});
+    useEffect(() => {
+        if (!currentUser?._id) {
+            redirect("/login")
+            // router.push("/login");
+        }
+    }, [router, currentUser]);
     const circleStyle = {
         width: "100px",
         height: "100px",
@@ -51,6 +61,7 @@ const Profile = () => {
         setSend(false)
     };
     const handleUploadProfileImage = (e) => {
+        setSend(true);
         const file = e.target.files[0];
         if (file) {
             const reader = new FileReader();
@@ -85,7 +96,10 @@ const Profile = () => {
             <div className="flex h-screen items-center justify-center bg-white z-0">
                 {loadingImage ? (
                     // Loader component or placeholder for loading state
-                    <FadeLoader color="#EF4444" speedMultiplier={5} />
+                    // <FadeLoader color="#EF4444" speedMultiplier={5} />
+                    <>
+                        <Skeleton />
+                    </>
                 ) : (
                     <form
                         action={async (formData) => {
@@ -141,7 +155,7 @@ const Profile = () => {
                                     onChange={(e) => setMyUserName(e.target.value)}
                                     arial-label="input-username"
                                 />
-                                <input type="text" id="userId" name="userId" defaultValue={currentUser._id} hidden />
+                                <input type="text" id="userId" name="userId" defaultValue={currentUser && currentUser._id} hidden />
                             </div>
                             <div className="mt-4">
                                 <label htmlFor="email" className="block text-sm font-medium text-gray-700" aria-label="email">
