@@ -166,7 +166,7 @@ const Profile = () => {
 
                             {/* Update button */}
                             <div className="mt-6">
-                                <SubmitButton />
+                                <SubmitButton name={"Update"} />
                             </div>
                             {/* Delete account and reset password links */}
                             <div className="flex justify-between font-semibold mt-4">

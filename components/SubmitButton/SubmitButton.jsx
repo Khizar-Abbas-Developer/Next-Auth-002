@@ -21,7 +21,7 @@ const SignUpButton = ({ name }) => {
     );
 };
 export default SignUpButton;
-export const SubmitButton = ()=>{
+export const SubmitButton = ({name})=>{
     const { pending } = useFormStatus();
 
     return(
@@ -34,7 +34,7 @@ export const SubmitButton = ()=>{
                 </>
             ) : (
                 <>
-                    {"Update"}
+                    {name}
                 </>
             )}
         </button>

@@ -37,9 +37,8 @@ const OtpForm = ({ userEmail, userId }) => {
                         <input type="text" placeholder='o' maxLength="1" name='digit3' className="w-12 h-12 text-2xl mx-2 p-2 text-center border" onKeyDown={(event) => handleKeyDown(2, event)} ref={inputRefs[2]} aria-label='number-3' style={{ appearance: 'none' }} />
                         <input type="text" placeholder='o' maxLength="1" name='digit4' className="w-12 h-12 text-2xl mx-2 p-2 text-center border" onKeyDown={(event) => handleKeyDown(3, event)} ref={inputRefs[3]} aria-label='number-4' style={{ appearance: 'none' }} />
                     </div>
-                <SubmitButton />
+                    <SubmitButton name={"Verify"} />
                 </div>
-
             </div>
         </>
     )
