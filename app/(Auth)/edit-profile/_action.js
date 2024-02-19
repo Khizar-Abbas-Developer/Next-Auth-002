@@ -2,7 +2,7 @@
 
 import connectMongoDB from "@/libs/mongodb";
 import User from "@/models/user";
-import { handleImageConversion } from "@/utils/ServerBase64";
+import {handleImageConversion} from "@/libs/utils/ServerBase64"
 
 export const UpdateProfile = async (prevStat, data) => {
     const userId = data.get("userId");

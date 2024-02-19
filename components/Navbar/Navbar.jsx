@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { UserSignOut } from "@/redux/userSlice";
 import { ImCross } from "react-icons/im";
 import logo from "@/public/logo.png";
+import { BsCartFill } from "react-icons/bs";
 import { useSelector, useDispatch } from "react-redux";
 import { useCallback, useEffect, useState } from "react";
 import { FiEdit } from "react-icons/fi";
@@ -18,6 +19,7 @@ const Navbar = () => {
         { name: "Menu", href: "/menu" },
         { name: "About", href: "/about" },
         { name: "Contact", href: "/contact" },
+        {name: <BsCartFill className="text-3xl" />, href: "/cart"}
     ]
     const dispatch = useDispatch();
     const { currentUser } = useSelector((state) => state.user);
